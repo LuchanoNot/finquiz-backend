@@ -22,5 +22,7 @@ module FinQuizBackend
     config.middleware.use ActionDispatch::Session::CookieStore, config.session_options
 
     config.api_only = true
+
+    config.i18n.default_locale = :es
   end
 end
