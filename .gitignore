@@ -33,4 +33,4 @@
 /config/master.key
 
 # DS_Store is a macOS file that stores custom attributes of a folder
-/.DS_Store
+.DS_Store
