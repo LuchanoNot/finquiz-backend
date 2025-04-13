@@ -1,6 +1,7 @@
 require 'spec_helper'
 require 'factory_bot'
 require 'database_cleaner/active_record'
+require 'shoulda/matchers'
 
 ENV['RAILS_ENV'] ||= 'test'
 require_relative '../config/environment'
@@ -35,4 +36,12 @@ RSpec.configure do |config|
 
   config.use_transactional_fixtures = true
   config.filter_rails_from_backtrace!
+end
+
+# Shoulda Matchers configuration
+Shoulda::Matchers.configure do |config|
+  config.integrate do |with|
+    with.test_framework :rspec
+    with.library :rails
+  end
 end
