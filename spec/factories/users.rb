@@ -12,4 +12,8 @@ FactoryBot.define do
       role { :teacher }
     end
   end
+
+  trait :without_selected_course do
+    selected_course { nil }
+  end
 end
