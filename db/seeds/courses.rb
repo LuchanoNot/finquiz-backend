@@ -1,11 +1,11 @@
 
 Course.find_or_create_by!(
     name: 'Programación 1',
-    description: 'Introducción a la programación con Pascal',
+    description: 'Curso de Programación 1',
 )
 Course.find_or_create_by!(
     name: 'NeoCourse',
     description: 'Curso de programación en Ruby on Rails',
 )
 
-puts "Courses seeds executed successfully! :)"
+puts "Courses seed executed successfully! :)"

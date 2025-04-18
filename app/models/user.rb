@@ -21,7 +21,9 @@ class User < ActiveRecord::Base
   private
 
   def assign_default_course
-    default_course = Course.find_or_create_by!(name: "Programación 1", description: "Curso de Programación 1")
+    default_course = Course.find_or_create_by!(name: "Programación 1") do |course|
+      course.description = "Curso de Programación 1"
+    end
     courses << default_course unless self.courses.loaded? && self.courses.include?(default_course)
     self.selected_course = default_course
   end

@@ -8,6 +8,7 @@ RSpec.describe Course, type: :model do
   describe 'associations' do
     it { should have_many(:course_users).dependent(:destroy) }
     it { should have_many(:users).through(:course_users) }
+    it { should have_many(:units).dependent(:destroy) }
   end
 
   describe 'validations' do
