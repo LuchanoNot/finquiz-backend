@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_18_144951) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_19_133334) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -27,6 +27,23 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_18_144951) do
   create_table "courses", force: :cascade do |t|
     t.string "name", null: false
     t.string "description", default: "", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "options", force: :cascade do |t|
+    t.text "text", default: "", null: false
+    t.boolean "correct", default: false, null: false
+    t.text "explanation", default: "", null: false
+    t.bigint "question_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["question_id"], name: "index_options_on_question_id"
+  end
+
+  create_table "questions", force: :cascade do |t|
+    t.text "stem", default: "", null: false
+    t.integer "score", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -54,8 +71,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_18_144951) do
     t.json "tokens"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "role", default: 0, null: false
     t.bigint "selected_course_id"
+    t.integer "role", default: 0, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["selected_course_id"], name: "index_users_on_selected_course_id"
@@ -64,6 +81,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_18_144951) do
 
   add_foreign_key "course_users", "courses"
   add_foreign_key "course_users", "users"
+  add_foreign_key "options", "questions"
   add_foreign_key "units", "courses"
   add_foreign_key "users", "courses", column: "selected_course_id"
 end
