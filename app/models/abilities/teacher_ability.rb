@@ -8,7 +8,13 @@ module Abilities
       @user = user
       @ability = ability
 
-      # Define abilities for the teacher role
+      courses_policy
+    end
+
+    private
+
+    def courses_policy
+      @ability.can [ :read, :update ], Course, users: { id: @user.id }
     end
   end
 end
