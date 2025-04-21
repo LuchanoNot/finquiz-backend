@@ -5,7 +5,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       mount_devise_token_auth_for "User", at: "auth"
       resources :courses, only: [ :show, :update ] do
-        resources :units, only: [ :show ]
+        resources :units, only: [ :show, :create ]
       end
     end
   end
