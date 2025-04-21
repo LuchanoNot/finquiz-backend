@@ -70,8 +70,7 @@ RSpec.describe User, type: :model do
 
       it 'finds or creates the default course' do
         expect(Course).to receive(:find_or_create_by!).with(
-          name: "Programación 1",
-          description: "Curso de Programación 1"
+          name: "Programación 1"
         ).and_call_original
         new_user.save!
       end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_12_213335) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_18_144951) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -29,6 +29,23 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_12_213335) do
     t.string "description", default: "", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "unit_contents", force: :cascade do |t|
+    t.string "title", null: false
+    t.string "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "units", force: :cascade do |t|
+    t.string "name", default: "", null: false
+    t.string "description", default: "", null: false
+    t.bigint "course_id", null: false
+    t.integer "position", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["course_id"], name: "index_units_on_course_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -54,5 +71,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_12_213335) do
 
   add_foreign_key "course_users", "courses"
   add_foreign_key "course_users", "users"
+  add_foreign_key "units", "courses"
   add_foreign_key "users", "courses", column: "selected_course_id"
 end
