@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-json.extract! @course, :id, :name, :description
+json.partial! "course", course: @course
 
 json.units do
   json.array! @course.units.order(:position) do |unit|

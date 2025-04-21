@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
-p1_course = Course.find_or_create_by!(
-  name: 'Programación 1',
-  description: 'Introducción a la programación con Pascal',
-)
+p1_course = Course.find_or_create_by!(name: "Programación 1") do |course|
+  course.description = "Curso de Programación 1"
+end
 
 Unit.find_or_create_by!(
   name: 'Introducción a la programación',

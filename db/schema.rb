@@ -31,13 +31,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_18_144951) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "unit_contents", force: :cascade do |t|
-    t.string "title", null: false
-    t.string "description"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "units", force: :cascade do |t|
     t.string "name", default: "", null: false
     t.string "description", default: "", null: false
