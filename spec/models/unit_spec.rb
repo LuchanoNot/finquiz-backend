@@ -16,7 +16,7 @@ RSpec.describe Unit, type: :model do
     it { should validate_presence_of(:description) }
     it { should validate_presence_of(:position) }
 
-    it { should validate_numericality_of(:position).only_integer.is_greater_than_or_equal_to(0) }
+    it { should validate_numericality_of(:position).only_integer.is_greater_than_or_equal_to(1) }
 
     it 'validates uniqueness of position scoped to course_id' do
       existing_unit = create(:unit)

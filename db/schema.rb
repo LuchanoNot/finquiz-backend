@@ -35,7 +35,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_18_144951) do
     t.string "name", default: "", null: false
     t.string "description", default: "", null: false
     t.bigint "course_id", null: false
-    t.integer "position", default: 0, null: false
+    t.integer "position", default: 1, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["course_id"], name: "index_units_on_course_id"

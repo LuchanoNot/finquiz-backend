@@ -9,6 +9,7 @@ module Abilities
       @ability = ability
 
       courses_policy
+      units_policy
     end
 
     private
@@ -18,7 +19,7 @@ module Abilities
     end
 
     def units_policy
-      @ability.can [ :read ], Unit, course: { users: { id: @user.id } }
+      @ability.can [ :read, :update ], Unit, course: { users: { id: @user.id } }
     end
   end
 end
