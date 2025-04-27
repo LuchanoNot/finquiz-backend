@@ -24,7 +24,7 @@ class GeminiApiService
   end
 
   def parse_response(response)
-    message_content = response.dig("choices", 0, "message", "content")
+    response.dig("choices", 0, "message", "content")
   rescue JSON::ParserError => e
     Rails.logger.error("Failed to parse response: #{e.message}")
     nil
