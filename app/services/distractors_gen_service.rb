@@ -34,23 +34,19 @@ class DistractorsGenService
   private
 
   def process_chain_of_thought
-    base_response = add_prompt(get_prompt_from_file("base"))
+    base_response = add_prompt(get_prompt_from_file("base_prompt"))
     return nil unless base_response
-    puts "BASE RESPONSE: #{base_response}"
 
-    evaluation_response = add_prompt(get_prompt_from_file("evaluation"))
-    return nil unless evaluation_response
-    puts "EVALUATION RESPONSE: #{evaluation_response}"
+    plausibility_response = add_prompt(get_prompt_from_file("plausibility_prompt"))
+    return nil unless plausibility_response
 
-    filtering_response = add_prompt(get_prompt_from_file("filtering"))
-    return nil unless filtering_response
-    puts "FILTERING RESPONSE: #{filtering_response}"
+    no_superposition_response = add_prompt(get_prompt_from_file("no_superposition_prompt"))
+    return nil unless no_superposition_response
 
-    selection_response = add_prompt(get_prompt_from_file("selection"))
-    return nil unless selection_response
-    puts "SELECTION RESPONSE: #{selection_response}"
+    length_response = add_prompt(get_prompt_from_file("length_prompt"))
+    return nil unless length_response
 
-    selection_response
+    length_response
   end
 
   def process_single_prompt

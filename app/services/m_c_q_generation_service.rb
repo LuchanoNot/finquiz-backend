@@ -6,7 +6,7 @@ class MCQGenerationService
     @history = []
   end
 
-  def generate_complete_question(question_type = "code_analysis", question_topics = "")
+  def generate_complete_question(question_type = "correct_output", question_topics = "")
     # Step 1: Generate the question and correct answer
     question_result = QuestionGenService.new(client: @client, history: @history).generate_question(
       question_type,
