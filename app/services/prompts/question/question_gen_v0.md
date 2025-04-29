@@ -33,7 +33,7 @@ Se espera que los estudiantes adquieran experiencia práctica en tareas relacion
 
 <%= question_topics_prompt(question_topics) %>
 
-## **Tipo de Pregunta: Salida Correcta**
+## **Tipo de Pregunta**
 
 <%= question_type_prompt(question_type) %>
 
