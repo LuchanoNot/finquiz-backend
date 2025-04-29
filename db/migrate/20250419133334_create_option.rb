@@ -5,6 +5,7 @@ class CreateOption < ActiveRecord::Migration[8.0]
       t.boolean :correct, null: false, default: false
       t.text :explanation, null: false, default: ""
       t.references :question, null: false, foreign_key: true
+
       t.timestamps
     end
   end

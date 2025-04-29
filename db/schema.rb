@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_19_133334) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_27_222033) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -39,6 +39,36 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_19_133334) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["question_id"], name: "index_options_on_question_id"
+  end
+
+  create_table "questionnaires", force: :cascade do |t|
+    t.string "name"
+    t.bigint "user_id", null: false
+    t.integer "current_position", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_questionnaires_on_user_id"
+  end
+
+  create_table "questionnaires_questions", force: :cascade do |t|
+    t.bigint "questionnaire_id", null: false
+    t.bigint "question_id", null: false
+    t.bigint "answered_option_id"
+    t.integer "position", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["answered_option_id"], name: "index_questionnaires_questions_on_answered_option_id"
+    t.index ["question_id"], name: "index_questionnaires_questions_on_question_id"
+    t.index ["questionnaire_id"], name: "index_questionnaires_questions_on_questionnaire_id"
+  end
+
+  create_table "questionnaires_units", force: :cascade do |t|
+    t.bigint "unit_id", null: false
+    t.bigint "questionnaire_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["questionnaire_id"], name: "index_questionnaires_units_on_questionnaire_id"
+    t.index ["unit_id"], name: "index_questionnaires_units_on_unit_id"
   end
 
   create_table "questions", force: :cascade do |t|
@@ -71,8 +101,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_19_133334) do
     t.json "tokens"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "selected_course_id"
     t.integer "role", default: 0, null: false
+    t.bigint "selected_course_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["selected_course_id"], name: "index_users_on_selected_course_id"
@@ -82,6 +112,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_19_133334) do
   add_foreign_key "course_users", "courses"
   add_foreign_key "course_users", "users"
   add_foreign_key "options", "questions"
+  add_foreign_key "questionnaires", "users"
+  add_foreign_key "questionnaires_questions", "options", column: "answered_option_id"
+  add_foreign_key "questionnaires_questions", "questionnaires"
+  add_foreign_key "questionnaires_questions", "questions"
+  add_foreign_key "questionnaires_units", "questionnaires"
+  add_foreign_key "questionnaires_units", "units"
   add_foreign_key "units", "courses"
   add_foreign_key "users", "courses", column: "selected_course_id"
 end

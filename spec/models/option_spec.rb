@@ -19,4 +19,17 @@ RSpec.describe Option, type: :model do
       expect(option).to be_valid
     end
   end
+
+  describe 'scope' do
+    describe '#correct' do
+      before do
+        create(:option, correct: true)
+        create(:option, correct: false)
+      end
+
+      it 'returns the correct options' do
+        expect(Option.correct).to eq(Option.where(correct: true))
+      end
+    end
+  end
 end

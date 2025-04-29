@@ -10,6 +10,8 @@ module Abilities
 
       courses_policy
       units_policy
+      questionnaires_policy
+      questions_policy
     end
 
     private
@@ -20,6 +22,14 @@ module Abilities
 
     def units_policy
       @ability.can [ :read, :update ], Unit, course: { users: { id: @user.id } }
+    end
+
+    def questionnaires_policy
+      @ability.can [ :read, :update ], Questionnaire, units: { unit: { course: { users: { id: @user.id } } } }
+    end
+
+    def questions_policy
+      @ability.can [ :read ], Question, units: { unit: { course: { users: { id: @user.id } } } }
     end
   end
 end
