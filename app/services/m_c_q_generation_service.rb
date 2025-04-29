@@ -3,7 +3,10 @@
 class MCQGenerationService
   def initialize
     @client = OpenAI::Client.new
-    @history = []
+    @history = [ {
+      role: "system",
+      content: "Soy un asistente basado en Gemini 2.5 pro para estudiantes de Ingeniería en Computación cursando Programación 1. Mi tarea es crear preguntas de múltiple opción de alta calidad que sirvan como herramienta de estudio y autoevaluación informal para que los alumnos refuercen su comprensión de los temas."
+    } ]
   end
 
   def generate_complete_question(question_type = "correct_output", question_topics = "")

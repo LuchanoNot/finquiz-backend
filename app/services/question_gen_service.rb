@@ -11,35 +11,11 @@ class QuestionGenService
     @history = history
   end
 
-  def generate_question(question_type = "correct_output", question_topics = "", debugger_mode = true)
-    path = Rails.root.join("app", "services", "prompts", "question", "question_gen_v#{PROMPT_VERSION}.md")
-    prompt = ERB.new(File.read(path)).result(binding)
+  def generate_question(question_type = "correct_output", question_topics = "", debugger_mode = true, complex_response = true)
+    @question_type = question_type
+    @question_topics = question_topics
 
-    @history = [
-      {
-        role: "system",
-        content: "Soy un asistente basado en Gemini 2.5 pro para estudiantes de Ingeniería en Computación cursando Programación 1. Mi tarea es crear preguntas de múltiple opción de alta calidad que sirvan como herramienta de estudio y autoevaluación informal para que los alumnos refuercen su comprensión de los temas."
-      },
-      {
-        role: "user",
-        content: prompt
-      }
-    ]
-
-    response = @client.chat(
-      parameters: {
-        model: GEMINI_MODEL,
-        messages: @history,
-        response_format: {
-          type: :json_object
-        }
-      }
-    )
-    assistant_message = response.dig("choices", 0, "message", "content")
-
-    @history << { role: "assistant", content: assistant_message }
-
-    parsed_response = JSON.parse(assistant_message)
+    parsed_response = complex_response ? process_complex_response : process_single_prompt
 
     if debugger_mode
       puts "STEM: #{parsed_response["question"]}"
@@ -60,6 +36,55 @@ class QuestionGenService
   rescue StandardError => e
     Rails.logger.error("An error occurred: #{e.message}")
     nil
+  end
+
+  def get_prompt_from_file(filename)
+    path = Rails.root.join("app", "services", "prompts", "question", "#{filename}.md")
+    ERB.new(File.read(path)).result(binding)
+  end
+  private
+
+  def process_complex_response
+    base_response = add_prompt(get_prompt_from_file("question_gen_v#{PROMPT_VERSION}"))
+    return nil unless base_response
+
+    complex_response = add_prompt(get_prompt_from_file("complexer_v#{PROMPT_VERSION}"))
+    return nil unless complex_response
+
+    complex_response
+  end
+
+  def process_single_prompt
+    add_prompt(get_prompt_from_file("question_gen_v#{PROMPT_VERSION}"))
+  end
+
+  def add_prompt(prompt)
+    add_to_conversation("user", prompt)
+
+    response = @client.chat(
+      parameters: {
+        model: GEMINI_MODEL,
+        messages: @history,
+        response_format: {
+          type: :json_object
+        }
+      }
+    )
+
+    assistant_message = response.dig("choices", 0, "message", "content")
+    add_to_conversation("assistant", assistant_message)
+
+    JSON.parse(assistant_message)
+  rescue OpenAI::Error => e
+    Rails.logger.error("OpenAI API error: #{e.message}")
+    nil
+  rescue StandardError => e
+    Rails.logger.error("An error occurred: #{e.message}")
+    nil
+  end
+
+  def add_to_conversation(role, content)
+    @history << { role: role, content: content }
   end
 
   def question_topics_prompt(question_topics)
@@ -100,12 +125,5 @@ class QuestionGenService
     else
       "Generate a question."
     end
-  end
-
-  def parse_response(response)
-    response.dig("choices", 0, "message", "content")
-  rescue JSON::ParserError => e
-    Rails.logger.error("Failed to parse response: #{e.message}")
-    nil
   end
 end

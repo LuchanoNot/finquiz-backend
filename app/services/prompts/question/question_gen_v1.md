@@ -11,6 +11,8 @@ El curso utiliza el lenguaje Pascal estándar, presentado en el libro "Programmi
   - `and` y `or` no evalúan el segundo operando si el resultado se puede determinar con el primero.
 - Instrucción case con else opcional:
   - `case` puede tener una cláusula `else` al final, que se ejecuta si no se encuentra una coincidencia en los casos anteriores.
+- Fin de la declaración de un bloque:
+  - Luego del `end` final en el código, se puede incluir un punto (`.`) para indicar el final del programa.
 
 ## **Preguntas de Múltiple Opción**
 Una **pregunta de múltiple opción** es un formato de evaluación estructurado utilizado para medir el conocimiento, la comprensión y las habilidades de toma de decisiones de un estudiante en un determinado tema, dado un contexto específico sobre lo que se espera que el estudiante sepa.
@@ -36,11 +38,11 @@ La clave es la única opción correcta que responde con precisión y sin ambigü
 
 ## **Tema de la Pregunta**
 
-<%= question_topics_prompt(question_topics) %>
+<%= question_topics_prompt(@question_topics) %>
 
 ## **Formato de la Pregunta**
 
-<%= question_type_prompt(question_type) %>
+<%= question_type_prompt(@question_type) %>
 
 ## **Formato de Salida**
 
@@ -54,7 +56,7 @@ El formato de salida debe coincidir exactamente con la siguiente estructura JSON
   "explanation": "La explicación de la respuesta correcta *en español*"
 }
 
-Si alguno de los strings contiene código, formatea el fragmento de código de la siguiente manera:
+Si alguno de los strings contiene código, formatea el fragmento de código utilizando bloques de código markdown con la etiqueta `pascal`. Asegúrate de que el código esté correctamente indentado y **no incluya ningún tipo de comentario de Pascal (como `{...}` o `//`) ni texto explicativo adicional dentro del bloque de código**:
 
 ```pascal
 program Hello;
@@ -77,4 +79,10 @@ Para generar preguntas de opción múltiple de alta calidad para estudio, sigue 
     * Se ajuste al **Formato de la Pregunta** especificado (Ej: si es "Completar Código", presenta un fragmento con un espacio en blanco; si es "Verdadero/Falso", formula una afirmación, etc.).
 4.  **Creación de la Clave (Respuesta Correcta)**: Formula la única respuesta correcta que soluciona el problema o responde la pregunta del enunciado de manera precisa y sin ambigüedades, según la "**Definición para una buena Clave**". Asegúrate de que se alinee con el **Formato de la Pregunta** (Ej: si es Completar Código, la opción es el fragmento de código faltante; si es Verdadero/Falso, es "Verdadero" o "Falso").
 6.  **Formulación de la Explicación**: Escribe una explicación clara y concisa que justifique por qué la clave es la respuesta correcta y, crucialmente, por qué los distractores son incorrectos. Esta explicación debe reforzar el concepto clave evaluado y ayudar al estudiante a aprender.
+6.  **Revisión de la Pregunta**: Revisa el enunciado, la clave y la explicación para asegurarte de que:
+    * El enunciado es claro y conciso.
+    * La clave es la única respuesta correcta.
+    * La explicación es precisa y relevante.
+    * No hay errores gramaticales o tipográficos.
+    * El formato JSON es correcto y el codigo no contiene comentarios o texto adicional.
 7.  **Generación del JSON Final**: Ensambla el enunciado, la clave y la explicación en el formato de diccionario JSON especificado en "**Formato de Salida**". Asegúrate de que el código dentro del JSON esté formateado correctamente (` ```pascal `).
