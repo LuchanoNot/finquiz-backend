@@ -6,15 +6,16 @@ class DistractorsGenService
   GEMINI_MODEL = "gemini-2.5-pro-preview-03-25"
   PROMPT_VERSION = 0
 
-  def initialize(client:, history:)
+  def initialize(client, history, debugger_mode = false)
     @client = client
     @history = history
+    @debugger_mode = debugger_mode
   end
 
-  def generate_distractors(question, correct_answer, chain_of_thought = true, debugger_mode = true)
+  def generate_distractors(question, correct_answer, chain_of_thought = true)
     parsed_response = chain_of_thought ? process_chain_of_thought : process_single_prompt
 
-    if debugger_mode
+    if @debugger_mode
       puts "DISTRACTORS: #{parsed_response["distractors"]}"
     end
 
@@ -34,19 +35,19 @@ class DistractorsGenService
   private
 
   def process_chain_of_thought
-    base_response = add_prompt(get_prompt_from_file("base_prompt"))
+    base_response = add_prompt(get_prompt_from_file("base"))
     return nil unless base_response
 
-    plausibility_response = add_prompt(get_prompt_from_file("plausibility_prompt"))
-    return nil unless plausibility_response
+    evaluation_response = add_prompt(get_prompt_from_file("evaluation"))
+    return nil unless evaluation_response
 
-    no_superposition_response = add_prompt(get_prompt_from_file("no_superposition_prompt"))
-    return nil unless no_superposition_response
+    filtering_response = add_prompt(get_prompt_from_file("filtering"))
+    return nil unless filtering_response
 
-    length_response = add_prompt(get_prompt_from_file("length_prompt"))
-    return nil unless length_response
+    selection_response = add_prompt(get_prompt_from_file("selection"))
+    return nil unless selection_response
 
-    length_response
+    selection_response
   end
 
   def process_single_prompt

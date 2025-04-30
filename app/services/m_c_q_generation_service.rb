@@ -1,20 +1,20 @@
 # frozen_string_literal: true
 
 class MCQGenerationService
-  def initialize
+  def initialize(debugger_mode = false)
     @client = OpenAI::Client.new
     @history = [ {
       role: "system",
-      content: "Soy un asistente basado en Gemini 2.5 pro para estudiantes de Ingeniería en Computación cursando Programación 1. Mi tarea es crear preguntas de múltiple opción de alta calidad que sirvan como herramienta de estudio y autoevaluación informal para que los alumnos refuercen su comprensión de los temas."
+      content: "Eres un asistente para estudiantes de Ingeniería en Computación cursando Programación 1. Tu tarea es crear preguntas de múltiple opción de alta calidad que sirvan como herramienta de estudio y autoevaluación informal para que los alumnos refuercen su comprensión de los temas."
     } ]
+    @debugger_mode = debugger_mode
   end
 
   def generate_complete_question(question_type = "correct_output", question_topics = "")
     # Step 1: Generate the question and correct answer
-    question_result = QuestionGenService.new(client: @client, history: @history).generate_question(
+    question_result = QuestionGenService.new(@client, @history, @debugger_mode).generate_question(
       question_type,
       question_topics,
-      true
     )
 
     return nil if question_result.nil?
@@ -22,13 +22,10 @@ class MCQGenerationService
     @history = question_result[:history]
 
     # Step 2: Generate distractors
-    distractors_result = DistractorsGenService.new(
-      client: @client,
-      history: @history
-    ).generate_distractors(
+    distractors_result = DistractorsGenService.new(@client, @history, @debugger_mode).generate_distractors(
       question_result[:question],
       question_result[:correct_answer],
-      true
+      true,
     )
 
     return nil if distractors_result.nil?
@@ -42,11 +39,10 @@ class MCQGenerationService
     }
   end
 
-  def compare_with_and_without_chain_of_thought(question_type = "code_analysis", question_topics = "")
-    question_result = QuestionGenService.new(client: @client, history: @history).generate_question(
+  def compare_with_and_without_chain_of_thought(question_type = "correct_output", question_topics = "")
+    question_result = QuestionGenService.new(@client, @history, @debugger_mode).generate_question(
       question_type,
       question_topics,
-      true
     )
 
     return nil if question_result.nil?
@@ -59,12 +55,13 @@ class MCQGenerationService
     # Step 2: Generate distractors with chain of thought
     @history = question_result[:history]
     with_chain_of_thought_distractors = DistractorsGenService.new(
-      client: @client,
-      history: @history
+      @client,
+      @history,
+      @debugger_mode
     ).generate_distractors(
       question,
       correct_answer,
-      true
+      true,
     )
 
     return nil if with_chain_of_thought_distractors.nil?
@@ -72,12 +69,13 @@ class MCQGenerationService
     # Step 3: Generate distractors without chain of thought
     @history = question_result[:history]
     without_chain_of_thought_distractors = DistractorsGenService.new(
-      client: @client,
-      history: @history
+      @client,
+      @history,
+      @debugger_mode
     ).generate_distractors(
       question,
       correct_answer,
-      false
+      false,
     )
 
     return nil if without_chain_of_thought_distractors.nil?

@@ -6,18 +6,19 @@ class QuestionGenService
   GEMINI_MODEL = "gemini-2.5-pro-preview-03-25"
   PROMPT_VERSION = 1
 
-  def initialize(client:, history:)
+  def initialize(client, history, debugger_mode = false)
     @client = client
     @history = history
+    @debugger_mode = debugger_mode
   end
 
-  def generate_question(question_type = "correct_output", question_topics = "", debugger_mode = true, complex_response = true)
+  def generate_question(question_type = "correct_output", question_topics = "", complex_response = false)
     @question_type = question_type
     @question_topics = question_topics
 
     parsed_response = complex_response ? process_complex_response : process_single_prompt
 
-    if debugger_mode
+    if @debugger_mode
       puts "STEM: #{parsed_response["question"]}"
       puts "CORRECT ANSWER: #{parsed_response["correctAnswer"]}"
       puts "EXPLANATION: #{parsed_response["explanation"]}"
@@ -38,10 +39,6 @@ class QuestionGenService
     nil
   end
 
-  def get_prompt_from_file(filename)
-    path = Rails.root.join("app", "services", "prompts", "question", "#{filename}.md")
-    ERB.new(File.read(path)).result(binding)
-  end
   private
 
   def process_complex_response
@@ -85,6 +82,11 @@ class QuestionGenService
 
   def add_to_conversation(role, content)
     @history << { role: role, content: content }
+  end
+
+  def get_prompt_from_file(filename)
+    path = Rails.root.join("app", "services", "prompts", "question", "#{filename}.md")
+    ERB.new(File.read(path)).result(binding)
   end
 
   def question_topics_prompt(question_topics)
