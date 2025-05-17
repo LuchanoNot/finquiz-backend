@@ -24,7 +24,11 @@
         )
 
         generated_data[:distractors].each do |distractor|
-          question.options.create!(text: distractor["text"], correct: false, explanation: distractor["evaluation"])
+          question.options.create!(
+            text: distractor["text"],
+            correct: false,
+            explanation: distractor["evaluation"] + "\n\n***¿Cuál es el razonamiento correcto?***\n\n" + generated_data[:explanation]
+          )
         end
       end
     end

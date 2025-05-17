@@ -1,4 +1,5 @@
 De los distractores que quedan, selecciona los 2 mejores que consideres que son los más efectivos para la pregunta.
+Modifica la evaluación de los distractores seleccionados de tal manera que un estudiante que eligiera este distractor como respuesta correcta, entienda que es incorrecto.
 
 ## **Formato de Salida**
 
