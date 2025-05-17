@@ -11,6 +11,7 @@ class QuestionnairesQuestion < ApplicationRecord
   before_create :set_position
 
   scope :in_order, -> { order(:position) }
+  scope :answered, -> { where.not(answered_option: nil) }
 
   def correct
     answered_option&.correct

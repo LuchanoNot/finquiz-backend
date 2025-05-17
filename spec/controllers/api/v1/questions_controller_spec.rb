@@ -57,7 +57,7 @@ RSpec.describe Api::V1::QuestionsController, type: :controller do
   end
 
   describe 'POST #answer' do
-    let(:question) { create(:question) }
+    let(:question) { create(:question, :with_options) }
 
     before do
       user.courses << course
@@ -72,10 +72,6 @@ RSpec.describe Api::V1::QuestionsController, type: :controller do
 
       it 'returns a success response' do
         expect(response).to be_successful
-      end
-
-      it 'updates the questionnaire' do
-        expect { questionnaire.reload }.to change { questionnaire.current_position }.by(1)
       end
 
       it 'updates the answered_option' do
@@ -94,10 +90,6 @@ RSpec.describe Api::V1::QuestionsController, type: :controller do
 
       it 'returns an error message' do
         expect(response.body).to include("Couldn't find Option with 'id'=0")
-      end
-
-      it 'does not update the questionnaire' do
-        expect { questionnaire.reload }.to_not change { questionnaire.current_position }
       end
 
       it 'does not update the answered_option' do

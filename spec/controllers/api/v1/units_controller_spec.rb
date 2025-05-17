@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Api::V1::UnitsController, type: :controller do
   let(:user) { create(:user, :teacher) }
-  let(:valid_attributes) { { name: 'My new Unit Rampla', description: 'Omg this is a new unit' } }
+  let(:valid_attributes) { { name: 'My new Unit Rampla', description: 'Omg this is a new unit', position: 1 } }
   let(:invalid_attributes) { { name: '', description: '' } }
 
   before do

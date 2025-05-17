@@ -9,5 +9,7 @@ class Questionnaire < ApplicationRecord
   has_many :questionnaires_units, dependent: :destroy
   has_many :units, through: :questionnaires_units
 
-  validates :name, presence: true
+  def current_position
+    questionnaires_questions.answered.count
+  end
 end

@@ -10,7 +10,7 @@ RSpec.describe QuestionnairesQuestion, type: :model do
   end
 
   describe 'validations' do
-    subject { create(:questionnaires_question) }
+    subject { create(:questionnaires_question, question: create(:question, :with_options)) }
 
     it { should validate_presence_of(:position) }
     it { should validate_uniqueness_of(:position).scoped_to(:questionnaire_id) }
