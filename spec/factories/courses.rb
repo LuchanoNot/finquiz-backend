@@ -7,5 +7,11 @@ FactoryBot.define do
       name { "Programación 1" }
       description { "Curso de Programación 1" }
     end
+
+    trait :with_units do
+      after(:create) do |course|
+        create_list(:unit, 3, course: course)
+      end
+    end
   end
 end

@@ -2,7 +2,7 @@
 
 puts 'Seeding users...'
 
-User.create!(
+User.create(
   [
     {
       name: 'Estudiante 1',

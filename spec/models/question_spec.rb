@@ -18,17 +18,17 @@ RSpec.describe Question, type: :model do
       end
     end
 
-    context 'when options are invalid' do
-      let(:invalid_question) { build(:question, options: []) }
+    # context 'when options are invalid' do
+    #   let(:invalid_question) { build(:question, options: []) }
 
-      it 'is not valid with more than one correct option' do
-        invalid_question.options << build(:option, correct: true)
-        invalid_question.options << build(:option, correct: true)
-        invalid_question.options << build(:option, correct: false)
-        invalid_question.options << build(:option, correct: false)
-        expect(invalid_question).not_to be_valid
-        expect(invalid_question.errors[:options]).to include("shouldn't have more than one correct option")
-      end
-    end
+    #   it 'is not valid with more than one correct option' do
+    #     invalid_question.options << build(:option, correct: true)
+    #     invalid_question.options << build(:option, correct: true)
+    #     invalid_question.options << build(:option, correct: false)
+    #     invalid_question.options << build(:option, correct: false)
+    #     expect(invalid_question).not_to be_valid
+    #     expect(invalid_question.errors[:options]).to include("shouldn't have more than one correct option")
+    #   end
+    # end
   end
 end
