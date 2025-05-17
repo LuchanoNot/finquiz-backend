@@ -17,7 +17,7 @@ module Api
 
 
         5.times do |i|
-          @questionnaire.questions.create!(stem: 'GENERATING QUESTION', generating: true)
+          @questionnaire.questions.create!(stem: "GENERATING QUESTION", generating: true)
         end
 
         GenerateQuestionsJob.perform_later(@questionnaire.id)
