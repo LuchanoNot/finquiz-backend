@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 class DistractorsGenService
+  include SharedUtils
   require "erb"
 
-  GEMINI_MODEL = "gemini-2.5-pro-preview-03-25"
   PROMPT_VERSION = 0
 
   def initialize(client, history, debugger_mode = false)
@@ -35,56 +35,22 @@ class DistractorsGenService
   private
 
   def process_chain_of_thought
-    base_response = add_prompt(get_prompt_from_file("base"))
+    base_response = add_prompt(get_prompt_from_file("distractors/base"))
     return nil unless base_response
 
-    evaluation_response = add_prompt(get_prompt_from_file("evaluation"))
+    evaluation_response = add_prompt(get_prompt_from_file("distractors/evaluation"))
     return nil unless evaluation_response
 
-    filtering_response = add_prompt(get_prompt_from_file("filtering"))
+    filtering_response = add_prompt(get_prompt_from_file("distractors/filtering"))
     return nil unless filtering_response
 
-    selection_response = add_prompt(get_prompt_from_file("selection"))
+    selection_response = add_prompt(get_prompt_from_file("distractors/selection"))
     return nil unless selection_response
 
     selection_response
   end
 
   def process_single_prompt
-    add_prompt(get_prompt_from_file("distractors_gen_v#{PROMPT_VERSION}"))
-  end
-
-  def add_prompt(prompt)
-    add_to_conversation("user", prompt)
-
-    response = @client.chat(
-      parameters: {
-        model: GEMINI_MODEL,
-        messages: @history,
-        response_format: {
-          type: :json_object
-        }
-      }
-    )
-
-    assistant_message = response.dig("choices", 0, "message", "content")
-    add_to_conversation("assistant", assistant_message)
-
-    JSON.parse(assistant_message)
-  rescue OpenAI::Error => e
-    Rails.logger.error("OpenAI API error: #{e.message}")
-    nil
-  rescue StandardError => e
-    Rails.logger.error("An error occurred: #{e.message}")
-    nil
-  end
-
-  def add_to_conversation(role, content)
-    @history << { role: role, content: content }
-  end
-
-  def get_prompt_from_file(filename)
-    path = Rails.root.join("app", "services", "prompts", "distractors", "#{filename}.md")
-    ERB.new(File.read(path)).result(binding)
+    add_prompt(get_prompt_from_file("distractors/distractors_gen_v#{PROMPT_VERSION}"))
   end
 end
