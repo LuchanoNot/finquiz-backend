@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 class QuestionGenService
+  include SharedUtils
   require "erb"
 
-  GEMINI_MODEL = "gemini-2.5-pro-preview-03-25"
-  PROMPT_VERSION = 1
+  PROMPT_VERSION = 2
 
   def initialize(client, history, debugger_mode = false)
     @client = client
@@ -42,51 +42,17 @@ class QuestionGenService
   private
 
   def process_complex_response
-    base_response = add_prompt(get_prompt_from_file("question_gen_v#{PROMPT_VERSION}"))
+    base_response = add_prompt(get_prompt_from_file("question/question_gen_v#{PROMPT_VERSION}"))
     return nil unless base_response
 
-    complex_response = add_prompt(get_prompt_from_file("complexer_v#{PROMPT_VERSION}"))
+    complex_response = add_prompt(get_prompt_from_file("question/complexer_v1"))
     return nil unless complex_response
 
     complex_response
   end
 
   def process_single_prompt
-    add_prompt(get_prompt_from_file("question_gen_v#{PROMPT_VERSION}"))
-  end
-
-  def add_prompt(prompt)
-    add_to_conversation("user", prompt)
-
-    response = @client.chat(
-      parameters: {
-        model: GEMINI_MODEL,
-        messages: @history,
-        response_format: {
-          type: :json_object
-        }
-      }
-    )
-
-    assistant_message = response.dig("choices", 0, "message", "content")
-    add_to_conversation("assistant", assistant_message)
-
-    JSON.parse(assistant_message)
-  rescue OpenAI::Error => e
-    Rails.logger.error("OpenAI API error: #{e.message}")
-    nil
-  rescue StandardError => e
-    Rails.logger.error("An error occurred: #{e.message}")
-    nil
-  end
-
-  def add_to_conversation(role, content)
-    @history << { role: role, content: content }
-  end
-
-  def get_prompt_from_file(filename)
-    path = Rails.root.join("app", "services", "prompts", "question", "#{filename}.md")
-    ERB.new(File.read(path)).result(binding)
+    add_prompt(get_prompt_from_file("question/question_gen_v#{PROMPT_VERSION}"))
   end
 
   def question_topics_prompt(question_topics)
@@ -95,6 +61,79 @@ class QuestionGenService
 
       - Funciones integradas como `sqr`, `sqrt`, `trunc`, `round` y `abs`.
       - Manipulación de caracteres con `ord` y `chr`.
+
+      Nota: En caso de necesitarlo, ten en cuenta que las equivalencias entre caracteres y enteros utilizando ASCII son:
+      | Código | Carácter |
+      |---|---|
+      | 048 | 0 |
+      | 049 | 1 |
+      | 050 | 2 |
+      | 051 | 3 |
+      | 052 | 4 |
+      | 053 | 5 |
+      | 054 | 6 |
+      | 055 | 7 |
+      | 056 | 8 |
+      | 057 | 9 |
+      | 058 | : |
+      | 059 | ; |
+      | 060 | < |
+      | 061 | = |
+      | 062 | > |
+      | 063 | ? |
+      | 064 | @ |
+      | 065 | A |
+      | 066 | B |
+      | 067 | C |
+      | 068 | D |
+      | 069 | E |
+      | 070 | F |
+      | 071 | G |
+      | 072 | H |
+      | 073 | I |
+      | 074 | J |
+      | 075 | K |
+      | 076 | L |
+      | 077 | M |
+      | 078 | N |
+      | 079 | O |
+      | 080 | P |
+      | 081 | Q |
+      | 082 | R |
+      | 083 | S |
+      | 084 | T |
+      | 085 | U |
+      | 086 | V |
+      | 087 | W |
+      | 088 | X |
+      | 089 | Y |
+      | 090 | Z |
+      | 097 | a |
+      | 098 | b |
+      | 099 | c |
+      | 100 | d |
+      | 101 | e |
+      | 102 | f |
+      | 103 | g |
+      | 104 | h |
+      | 105 | i |
+      | 106 | j |
+      | 107 | k |
+      | 108 | l |
+      | 109 | m |
+      | 110 | n |
+      | 111 | o |
+      | 112 | p |
+      | 113 | q |
+      | 114 | r |
+      | 115 | s |
+      | 116 | t |
+      | 117 | u |
+      | 118 | v |
+      | 119 | w |
+      | 120 | x |
+      | 121 | y |
+      | 122 | z |
     QUESTION_TOPIC
   end
 

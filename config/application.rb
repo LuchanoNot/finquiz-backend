@@ -12,6 +12,8 @@ module FinQuizBackend
     config.load_defaults 8.0
 
     config.autoload_lib(ignore: %w[assets tasks])
+    config.autoload_paths += %W[#{config.root}/app/services/concerns]
+
 
     # Sidekiq setup
     config.active_job.queue_adapter = :sidekiq
