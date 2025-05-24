@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-json.extract! @question, :id, :stem
+json.extract! @question, :id, :stem, :generating
 
 # shuffle
 json.options @question.options do |option|
