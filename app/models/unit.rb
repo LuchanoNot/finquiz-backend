@@ -2,6 +2,7 @@
 
 class Unit < ApplicationRecord
   belongs_to :course, optional: false
+  has_many :topics, dependent: :destroy
 
   validates :name, presence: true
   validates :description, presence: true

@@ -12,6 +12,7 @@ module Abilities
       units_policy
       questionnaires_policy
       questions_policy
+      topics_policy
     end
 
     private
@@ -30,6 +31,10 @@ module Abilities
 
     def questions_policy
       @ability.can [ :read ], Question, units: { unit: { course: { users: { id: @user.id } } } }
+    end
+
+    def topics_policy
+      @ability.can [ :update ], Topic, unit: { course: { users: { id: @user.id } } }
     end
   end
 end

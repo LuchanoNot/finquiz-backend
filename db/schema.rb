@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_27_222033) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_23_002553) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -42,7 +42,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_27_222033) do
   end
 
   create_table "questionnaires", force: :cascade do |t|
+    t.string "name"
     t.bigint "user_id", null: false
+    t.integer "current_position", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_questionnaires_on_user_id"
@@ -75,6 +77,26 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_27_222033) do
     t.boolean "generating", default: true, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "topic_prerequisites", force: :cascade do |t|
+    t.bigint "topic_id", null: false
+    t.bigint "prerequisite_topic_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["prerequisite_topic_id"], name: "index_topic_prerequisites_on_prerequisite_topic_id"
+    t.index ["topic_id", "prerequisite_topic_id"], name: "index_topic_prerequisites_on_topic_and_prerequisite", unique: true
+    t.index ["topic_id"], name: "index_topic_prerequisites_on_topic_id"
+  end
+
+  create_table "topics", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "description"
+    t.string "short_description"
+    t.bigint "unit_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["unit_id"], name: "index_topics_on_unit_id"
   end
 
   create_table "units", force: :cascade do |t|
@@ -117,6 +139,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_27_222033) do
   add_foreign_key "questionnaires_questions", "questions"
   add_foreign_key "questionnaires_units", "questionnaires"
   add_foreign_key "questionnaires_units", "units"
+  add_foreign_key "topic_prerequisites", "topics"
+  add_foreign_key "topic_prerequisites", "topics", column: "prerequisite_topic_id"
+  add_foreign_key "topics", "units"
   add_foreign_key "units", "courses"
   add_foreign_key "users", "courses", column: "selected_course_id"
 end
