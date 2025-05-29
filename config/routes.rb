@@ -12,6 +12,8 @@ Rails.application.routes.draw do
       end
 
       resources :questionnaires, only: [ :index, :show ] do
+        get :summary, on: :member
+
         resources :questions, only: [ :show ] do
           post :answer, on: :member
         end

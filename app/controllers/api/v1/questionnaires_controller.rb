@@ -3,7 +3,7 @@
 module Api
   module V1
     class QuestionnairesController < ApplicationController
-      before_action :set_questionnaire, only: [ :show ]
+      before_action :set_questionnaire, only: [ :show, :summary ]
 
       def index
         @questionnaires = current_user.questionnaires.order(created_at: :desc)
@@ -24,6 +24,12 @@ module Api
         end
 
         GenerateQuestionsJob.perform_later(@questionnaire.id)
+      end
+
+      def summary
+        authorize! :summary, @questionnaire
+
+        render status: :unprocessable_entity unless @questionnaire.is_completed?
       end
 
       private

@@ -85,4 +85,54 @@ RSpec.describe Api::V1::QuestionnairesController, type: :controller do
       end
     end
   end
+
+  describe 'GET #summary' do
+    context 'when the questionnaire exists' do
+      before do
+        get :summary, params: { id: questionnaire.id }
+      end
+
+      context 'when the questionnaire is not completed' do
+        let(:questionnaire) { create(:questionnaire, user: user) }
+
+        it 'returns an unprocessable entity response' do
+          expect(response).to be_unprocessable
+        end
+      end
+
+      context 'when the questionnaire is completed' do
+        let(:questionnaire) { create(:questionnaire, :completed, user: user) }
+
+        it 'returns a success response' do
+          expect(response).to be_successful
+        end
+      end
+    end
+
+    context 'when the questionnaire does not exist' do
+      before do
+        get :summary, params: { id: 0 }
+      end
+
+      it 'returns a not found response' do
+        expect(response).to be_not_found
+      end
+
+      it 'returns an error message' do
+        expect(response.body).to include("Couldn't find Questionnaire with 'id'=0")
+      end
+    end
+
+    context 'when the user is not authorized' do
+      let(:questionnaire) { create(:questionnaire) }
+
+      it 'raises CanCan::AccessDenied' do
+        allow(controller).to receive(:authorize!).and_raise(CanCan::AccessDenied)
+
+        expect {
+          get :summary, params: { id: questionnaire.id }
+        }.to raise_error(CanCan::AccessDenied)
+      end
+    end
+  end
 end

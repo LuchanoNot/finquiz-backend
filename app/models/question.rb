@@ -7,4 +7,8 @@ class Question < ActiveRecord::Base
   has_many :questionnaires, through: :questionnaires_questions
 
   validates :stem, :score, presence: true
+
+  def correct_option
+    options.correct.first
+  end
 end
