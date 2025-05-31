@@ -3,7 +3,11 @@
 module Api
   module V1
     class QuestionnairesController < ApplicationController
-      before_action :set_questionnaire
+      before_action :set_questionnaire, only: [ :show ]
+
+      def index
+        @questionnaires = current_user.questionnaires.order(created_at: :desc)
+      end
 
       def show
         authorize! :read, @questionnaire
@@ -15,14 +19,11 @@ module Api
 
         @questionnaire = Questionnaire.create!(questionnaire_params)
 
-
         5.times do |i|
           @questionnaire.questions.create!(stem: "GENERATING QUESTION", generating: true)
         end
 
         GenerateQuestionsJob.perform_later(@questionnaire.id)
-
-        # render json: @questionnaire, status: :created
       end
 
       private
@@ -32,7 +33,7 @@ module Api
       end
 
       def questionnaire_params
-        params.require(:questionnaire).permit(:name, :user_id)
+        params.require(:questionnaire).permit(:name, :user_id, units_ids: [])
       end
     end
   end

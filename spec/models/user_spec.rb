@@ -22,6 +22,7 @@ RSpec.describe User, type: :model do
     it { should belong_to(:selected_course).class_name('Course') }
     it { should have_many(:course_users).dependent(:destroy) }
     it { should have_many(:courses).through(:course_users) }
+    it { should have_many(:questionnaires).dependent(:destroy) }
   end
 
   describe 'validations' do

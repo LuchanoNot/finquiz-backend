@@ -8,6 +8,7 @@ class User < ActiveRecord::Base
   belongs_to :selected_course, class_name: "Course"
   has_many :course_users, dependent: :destroy
   has_many :courses, through: :course_users, dependent: :destroy
+  has_many :questionnaires, dependent: :destroy
 
   enum :role, [ :student, :teacher ]
 

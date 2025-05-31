@@ -9,7 +9,7 @@ Rails.application.routes.draw do
         resources :units, only: [ :show, :create, :update ]
       end
 
-      resources :questionnaires, only: [ :show ] do
+      resources :questionnaires, only: [ :index, :show ] do
         resources :questions, only: [ :show ] do
           post :answer, on: :member
         end

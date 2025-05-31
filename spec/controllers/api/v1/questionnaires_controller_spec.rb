@@ -3,6 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe Api::V1::QuestionnairesController, type: :controller do
+  render_views
+
   let(:user) { create(:user, :student) }
 
   before do
@@ -46,6 +48,40 @@ RSpec.describe Api::V1::QuestionnairesController, type: :controller do
         expect {
           get :show, params: { id: questionnaire.id }
         }.to raise_error(CanCan::AccessDenied)
+      end
+    end
+  end
+
+  describe 'GET #index' do
+    context 'when questionnaires exist' do
+      let!(:questionnaires) { create_list(:questionnaire, 3, user: user) }
+
+      before do
+        create_list(:questionnaire, 5)
+        get :index
+      end
+
+      it 'returns a success response' do
+        expect(response).to be_successful
+      end
+
+      it 'returns the correct number of questionnaires for the user' do
+        expect(JSON.parse(response.body).length).to eq(3)
+      end
+    end
+
+    context 'when no questionnaires for the user exist' do
+      before do
+        create_list(:questionnaire, 5)
+        get :index
+      end
+
+      it 'returns a success response' do
+        expect(response).to be_successful
+      end
+
+      it 'returns an empty array' do
+        expect(JSON.parse(response.body)).to be_empty
       end
     end
   end
