@@ -97,4 +97,48 @@ RSpec.describe Api::V1::QuestionsController, type: :controller do
       end
     end
   end
+
+  describe 'POST #vote' do
+    let!(:question) { questionnaire.questions.first }
+
+    context 'when vote_action is up_vote' do
+      before { post :vote, params: { questionnaire_id: questionnaire.id, id: question.id, vote_action: 'up_vote' } }
+
+      it 'returns a success response' do
+        expect(response).to be_successful
+      end
+
+      it 'increments the score by 1' do
+        expect(question.reload.score).to eq(1)
+      end
+    end
+
+    context 'when vote_action is report' do
+      before { post :vote, params: { questionnaire_id: questionnaire.id, id: question.id, vote_action: 'report' } }
+
+      it 'returns a success response' do
+        expect(response).to be_successful
+      end
+
+      it 'sets the score to -1' do
+        expect(question.reload.score).to eq(-1)
+      end
+    end
+
+    context 'when the vote action is invalid' do
+      before { post :vote, params: { questionnaire_id: questionnaire.id, id: question.id, vote_action: 'invalid' } }
+
+      it 'returns a bad request response' do
+        expect(response).to have_http_status(:bad_request)
+      end
+
+      it 'returns an error message' do
+        expect(response.body).to include("Invalid action")
+      end
+
+      it 'does not change the score' do
+        expect { question.reload }.to_not change { question.score }
+      end
+    end
+  end
 end

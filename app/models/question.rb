@@ -10,6 +10,9 @@ class Question < ActiveRecord::Base
   validates :stem, :score, presence: true
   validates :topic, presence: true
 
+  scope :reported, -> { where("score < 0") }
+  scope :not_reported, -> { where("score >= 0") }
+
   def correct_option
     options.correct.first
   end
