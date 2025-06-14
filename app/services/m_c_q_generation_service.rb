@@ -10,11 +10,11 @@ class MCQGenerationService
     @debugger_mode = debugger_mode
   end
 
-  def generate_complete_question(question_type = "correct_output", question_topics = "")
+  def generate_complete_question(question_type: "correct_output", topic_id: "")
     # Step 1: Generate the question and correct answer
     question_result = QuestionGenService.new(@client, @history, @debugger_mode).generate_question(
       question_type,
-      question_topics,
+      topic_id,
     )
 
     return nil if question_result.nil?
@@ -39,10 +39,10 @@ class MCQGenerationService
     }
   end
 
-  def compare_with_and_without_chain_of_thought(question_type = "correct_output", question_topics = "")
+  def compare_with_and_without_chain_of_thought(question_type: "correct_output", topic_id: "")
     question_result = QuestionGenService.new(@client, @history, @debugger_mode).generate_question(
       question_type,
-      question_topics,
+      topic_id,
     )
 
     return nil if question_result.nil?

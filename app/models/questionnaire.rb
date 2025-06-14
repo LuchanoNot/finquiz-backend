@@ -24,11 +24,11 @@ class Questionnaire < ApplicationRecord
 
     correct_count = questionnaires_questions.correctly_answered.count
 
-    (correct_count.to_f / questions.count * 100).round(2)
+    (correct_count.to_f / questions.count * 100).round(1)
   end
 
   def formatted_created_at
-    created_at.strftime("%d de %B de %Y")
+    I18n.l(created_at, format: "%d de %B de %Y", locale: :es)
   end
 
   def is_completed?

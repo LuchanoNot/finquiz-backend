@@ -20,7 +20,7 @@ module Abilities
     end
 
     def questionnaires_policy
-      @ability.can [ :read, :summary ], Questionnaire, user: @user
+      @ability.can [ :read, :create, :summary ], Questionnaire, user: @user
     end
 
     def questions_policy

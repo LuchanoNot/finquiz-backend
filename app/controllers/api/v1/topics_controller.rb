@@ -34,7 +34,7 @@ module Api
       end
 
       def topic_params
-        params.require(:topic).permit(:name, :description, :short_description)
+        params.require(:topic).permit(:name, :description, :short_description, :notes)
       end
     end
   end

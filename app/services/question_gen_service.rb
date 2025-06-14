@@ -12,9 +12,9 @@ class QuestionGenService
     @debugger_mode = debugger_mode
   end
 
-  def generate_question(question_type = "correct_output", question_topics = "", complex_response = false)
+  def generate_question(question_type = "correct_output", topic_id = "", complex_response = false)
     @question_type = question_type
-    @question_topics = question_topics
+    @topic_id = topic_id
 
     parsed_response = complex_response ? process_complex_response : process_single_prompt
 
@@ -55,86 +55,8 @@ class QuestionGenService
     add_prompt(get_prompt_from_file("question/question_gen_v#{PROMPT_VERSION}"))
   end
 
-  def question_topics_prompt(question_topics)
-    <<~QUESTION_TOPIC
-      La pregunta generada debe estar relacionada con el tema **"Funciones estándar y conversiones de tipo"**, que abarca:
-
-      - Funciones integradas como `sqr`, `sqrt`, `trunc`, `round` y `abs`.
-      - Manipulación de caracteres con `ord` y `chr`.
-
-      Nota: En caso de necesitarlo, ten en cuenta que las equivalencias entre caracteres y enteros utilizando ASCII son:
-      | Código | Carácter |
-      |---|---|
-      | 048 | 0 |
-      | 049 | 1 |
-      | 050 | 2 |
-      | 051 | 3 |
-      | 052 | 4 |
-      | 053 | 5 |
-      | 054 | 6 |
-      | 055 | 7 |
-      | 056 | 8 |
-      | 057 | 9 |
-      | 058 | : |
-      | 059 | ; |
-      | 060 | < |
-      | 061 | = |
-      | 062 | > |
-      | 063 | ? |
-      | 064 | @ |
-      | 065 | A |
-      | 066 | B |
-      | 067 | C |
-      | 068 | D |
-      | 069 | E |
-      | 070 | F |
-      | 071 | G |
-      | 072 | H |
-      | 073 | I |
-      | 074 | J |
-      | 075 | K |
-      | 076 | L |
-      | 077 | M |
-      | 078 | N |
-      | 079 | O |
-      | 080 | P |
-      | 081 | Q |
-      | 082 | R |
-      | 083 | S |
-      | 084 | T |
-      | 085 | U |
-      | 086 | V |
-      | 087 | W |
-      | 088 | X |
-      | 089 | Y |
-      | 090 | Z |
-      | 097 | a |
-      | 098 | b |
-      | 099 | c |
-      | 100 | d |
-      | 101 | e |
-      | 102 | f |
-      | 103 | g |
-      | 104 | h |
-      | 105 | i |
-      | 106 | j |
-      | 107 | k |
-      | 108 | l |
-      | 109 | m |
-      | 110 | n |
-      | 111 | o |
-      | 112 | p |
-      | 113 | q |
-      | 114 | r |
-      | 115 | s |
-      | 116 | t |
-      | 117 | u |
-      | 118 | v |
-      | 119 | w |
-      | 120 | x |
-      | 121 | y |
-      | 122 | z |
-    QUESTION_TOPIC
+  def question_topics_prompt(topic_id)
+    Topic.find(topic_id)&.prompt || ""
   end
 
   def question_type_prompt(question_type)
