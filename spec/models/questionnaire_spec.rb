@@ -34,4 +34,22 @@ RSpec.describe Questionnaire, type: :model do
       end
     end
   end
+
+  describe 'is_completed?' do
+    let(:questionnaire) { create(:questionnaire) }
+
+    context 'when the questionnaire has no questions answered' do
+      it 'returns false' do
+        expect(questionnaire.is_completed?).to be_falsey
+      end
+    end
+
+    context 'when the questionnaire is completed' do
+      let(:questionnaire) { create(:questionnaire, :completed) }
+
+      it 'returns true' do
+        expect(questionnaire.is_completed?).to be_truthy
+      end
+    end
+  end
 end

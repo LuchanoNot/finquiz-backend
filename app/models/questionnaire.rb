@@ -30,4 +30,8 @@ class Questionnaire < ApplicationRecord
   def formatted_created_at
     created_at.strftime("%d de %B de %Y")
   end
+
+  def is_completed?
+    current_position >= questions.count
+  end
 end
