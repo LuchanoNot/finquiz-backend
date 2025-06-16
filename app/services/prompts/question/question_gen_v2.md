@@ -38,7 +38,7 @@ La clave es la única opción correcta que responde con precisión y sin ambigü
 
 ## **Tema de la Pregunta**
 
-<%= question_topics_prompt(@question_topics) %>
+<%= question_topics_prompt(@topic_id) %>
 
 ## **Formato de la Pregunta**
 

@@ -13,7 +13,6 @@ module SharedUtils
         }
       }
     )
-
     assistant_message = response.dig("choices", 0, "message", "content")
     add_to_conversation("assistant", assistant_message)
 

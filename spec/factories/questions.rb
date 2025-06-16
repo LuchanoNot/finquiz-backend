@@ -2,6 +2,7 @@ FactoryBot.define do
   factory :question do
     stem { Faker::Lorem.sentence(word_count: 15) }
     score { 0 }
+    topic { create(:topic) }
 
     trait :with_options do
       after(:create) do |question|

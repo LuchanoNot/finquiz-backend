@@ -2,7 +2,10 @@
 
 json.extract! @question, :id, :stem, :generating
 
-# shuffle
-json.options @question.options do |option|
+json.options @question.options.shuffle do |option|
   json.extract! option, :id, :text
+end
+
+json.topic do
+  json.partial! "api/v1/topics/topic", topic: @question.topic
 end

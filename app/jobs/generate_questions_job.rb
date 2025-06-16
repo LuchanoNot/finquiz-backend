@@ -9,9 +9,8 @@ class GenerateQuestionsJob < ApplicationJob
     questionnaire.questions.each do |question|
       next unless question.reload.generating
       generated_data = nil
-
       begin
-        generated_data = MCQGenerationService.new.generate_complete_question
+        generated_data = MCQGenerationService.new.generate_complete_question(topic_id: question.topic_id)
       rescue StandardError => e
         Rails.logger.error("Error generating question: #{e.message}")
         next

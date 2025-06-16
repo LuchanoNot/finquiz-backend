@@ -13,6 +13,7 @@ class QuestionnairesQuestion < ApplicationRecord
   scope :in_order, -> { order(:position) }
   scope :answered, -> { where.not(answered_option: nil) }
   scope :correctly_answered, -> { joins(:answered_option).where(options: { correct: true }) }
+  scope :incorrectly_answered, -> { joins(:answered_option).where(options: { correct: false }) }
 
   def correct
     answered_option&.correct

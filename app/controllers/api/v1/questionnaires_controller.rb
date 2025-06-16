@@ -13,14 +13,24 @@ module Api
         authorize! :read, @questionnaire
       end
 
-      # Por defecto se generan 5 preguntas, por ahora
       def create
         authorize! :create, Questionnaire
 
-        @questionnaire = Questionnaire.create!(questionnaire_params)
+        @questionnaire = current_user.questionnaires.create!(questionnaire_params)
+        unit_topics = @questionnaire.units.includes(:topics).flat_map(&:topics).uniq
+        unit_topics_count = unit_topics.size
 
-        5.times do |i|
-          @questionnaire.questions.create!(stem: "GENERATING QUESTION", generating: true)
+        # Determine number of questions per topic based on topic count
+        questions_per_topic = case unit_topics_count
+        when 0..3 then 3
+        when 4..6 then 2
+        else 1
+        end
+
+        unit_topics.each do |unit_topic|
+          questions_per_topic.times do
+            @questionnaire.questions.create!(stem: "GENERATING QUESTION", generating: true, topic_id: unit_topic.topic_id)
+          end
         end
 
         GenerateQuestionsJob.perform_later(@questionnaire.id)
@@ -39,7 +49,7 @@ module Api
       end
 
       def questionnaire_params
-        params.require(:questionnaire).permit(:name, :user_id, units_ids: [])
+        params.permit(unit_ids: [])
       end
     end
   end

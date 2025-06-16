@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_23_002553) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_08_210057) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -75,6 +75,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_23_002553) do
     t.boolean "generating", default: true, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "topic_id", null: false
+    t.index ["topic_id"], name: "index_questions_on_topic_id"
   end
 
   create_table "topic_prerequisites", force: :cascade do |t|
@@ -94,6 +96,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_23_002553) do
     t.bigint "unit_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "notes", default: ""
     t.index ["unit_id"], name: "index_topics_on_unit_id"
   end
 
@@ -137,6 +140,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_23_002553) do
   add_foreign_key "questionnaires_questions", "questions"
   add_foreign_key "questionnaires_units", "questionnaires"
   add_foreign_key "questionnaires_units", "units"
+  add_foreign_key "questions", "topics"
   add_foreign_key "topic_prerequisites", "topics"
   add_foreign_key "topic_prerequisites", "topics", column: "prerequisite_topic_id"
   add_foreign_key "topics", "units"
