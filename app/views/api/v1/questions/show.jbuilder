@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
-json.extract! @question, :id, :stem, :generating
+json.extract! @question, :id, :stem, :generating, :score
 
-json.options @question.options.shuffle do |option|
+# deterministic shuffle: same order for the same question across requests
+json.options @question.options.shuffle(random: Random.new(@question.id)) do |option|
   json.extract! option, :id, :text
 end
 

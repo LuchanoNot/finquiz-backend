@@ -20,6 +20,23 @@ module Api
         end
       end
 
+      def vote
+        authorize! :read, @question
+
+        vote_action = params[:vote_action]
+
+        case vote_action
+        when "up_vote"
+          @question.increment!(:score)
+        when "report"
+          @question.update!(score: -1)
+        else
+          return render json: { error: "Invalid action" }, status: :bad_request
+        end
+
+        render json: @question
+      end
+
       private
 
       def set_questionnaire

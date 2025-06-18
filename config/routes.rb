@@ -26,6 +26,7 @@ Rails.application.routes.draw do
 
         resources :questions, only: [ :show ] do
           post :answer, on: :member
+          post :vote, on: :member
         end
       end
     end
