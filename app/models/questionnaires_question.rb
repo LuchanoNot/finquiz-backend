@@ -12,8 +12,11 @@ class QuestionnairesQuestion < ApplicationRecord
 
   scope :in_order, -> { order(:position) }
   scope :answered, -> { where.not(answered_option: nil) }
+  scope :not_reported, -> { joins(:question).where("questions.score >= 0") }
   scope :correctly_answered, -> { joins(:answered_option).where(options: { correct: true }) }
   scope :incorrectly_answered, -> { joins(:answered_option).where(options: { correct: false }) }
+  scope :for_course, ->(course_id) { joins(questionnaire: :units).where(units: { course_id: course_id }).distinct }
+  scope :for_user, ->(user_id) { joins(:questionnaire).where(questionnaires: { user_id: user_id }) }
 
   def correct
     answered_option&.correct

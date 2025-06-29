@@ -5,6 +5,8 @@ class User < ActiveRecord::Base
          :recoverable
   include DeviseTokenAuth::Concerns::User
 
+  paginates_per 5
+
   belongs_to :selected_course, class_name: "Course"
   has_many :course_users, dependent: :destroy
   has_many :courses, through: :course_users, dependent: :destroy
@@ -20,11 +22,11 @@ class User < ActiveRecord::Base
   before_validation :assign_default_course, on: :create
 
   def success_topics
-    topics_with_rate(correctly_answered_topics, incorrectly_answered_topics)
+    Topic.topics_with_rate(correctly_answered_topics, incorrectly_answered_topics)
   end
 
   def failure_topics
-    topics_with_rate(incorrectly_answered_topics, correctly_answered_topics)
+    Topic.topics_with_rate(incorrectly_answered_topics, correctly_answered_topics)
   end
 
   def stats
@@ -35,22 +37,46 @@ class User < ActiveRecord::Base
     }
   end
 
+  def completed_questionnaires
+    questionnaires.select { |questionnaire| questionnaire.is_completed? }
+  end
 
-  def topics_with_rate(primary_topics, secondary_topics, threshold = 70)
-    answered_rate = {}
+  def correctly_answered_questions_count
+    answered_questionnaire_questions.correctly_answered.count
+  end
 
-    primary_topics.each do |topic_id, primary_count|
-      secondary_count = secondary_topics[topic_id]&.to_i || 0
-      total_count = primary_count + secondary_count
+  def incorrectly_answered_questions_count
+    answered_questionnaire_questions.incorrectly_answered.count
+  end
 
-      if total_count > 0
-        rate = (primary_count.to_f / total_count * 100).round(2)
-        answered_rate[topic_id] = rate
-      end
+  def average_result
+    total_count = answered_questionnaire_questions.not_reported.count.to_f
+    return 0.0 if total_count.zero?
+
+    ((correctly_answered_questions_count.to_f / total_count) * 100).round(1)
+  end
+
+  def assign_default_course
+    default_course = Course.find_or_create_by!(name: "Programación 1") do |course|
+      course.description = "Curso de Programación 1"
     end
+    courses << default_course unless self.courses.loaded? && self.courses.include?(default_course)
+    self.selected_course = default_course
+  end
 
-    filtered_topics = answered_rate.select { |_, rate| rate >= threshold }
-    Topic.where(id: filtered_topics.keys)
+  def selected_course_must_belong_to_user
+    return unless selected_course.present?
+
+    current_course_ids = courses.map(&:id)
+    unless current_course_ids.include?(selected_course.id)
+      errors.add(:selected_course, "must be one of the user's courses")
+    end
+  end
+
+  private
+
+  def answered_questionnaire_questions
+    QuestionnairesQuestion.for_user(id).answered
   end
 
   def correctly_answered_topics
@@ -65,27 +91,5 @@ class User < ActiveRecord::Base
                 .joins(question: :topic)
                 .group("topics.id")
                 .count
-  end
-
-  def answered_questionnaire_questions
-    QuestionnairesQuestion.joins(:questionnaire)
-                          .where(questionnaires: { user_id: id })
-                          .where.not(answered_option_id: nil)
-  end
-
-  def assign_default_course
-    default_course = Course.find_or_create_by!(name: "Programación 1") do |course|
-      course.description = "Curso de Programación 1"
-    end
-    courses << default_course unless self.courses.loaded? && self.courses.include?(default_course)
-    self.selected_course = default_course
-  end
-
-  def selected_course_must_belong_to_user
-    return unless selected_course.present?
-    current_course_ids = courses.map(&:id)
-    unless current_course_ids.include?(selected_course.id)
-      errors.add(:selected_course, "must be one of the user's courses")
-    end
   end
 end
