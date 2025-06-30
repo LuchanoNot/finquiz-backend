@@ -121,4 +121,48 @@ RSpec.describe Api::V1::CoursesController, type: :controller do
       end
     end
   end
+
+  describe 'GET #questions_csv' do
+    let(:unit) { create(:unit, course: course) }
+    let(:topic) { create(:topic, unit: unit) }
+    let(:question) { create(:question, topic: topic, score: 10) }
+
+    context 'when user is authorized' do
+      before do
+        allow(controller).to receive(:authorize!).and_return(true)
+      end
+
+      it 'returns CSV data for course questions' do
+        question
+
+        get :questions_csv, params: { id: course.id, format: :csv }
+
+        expect(response).to have_http_status(:success)
+        expect(response.content_type).to include('text/csv')
+        expect(response.body).to include('ID,Tema,Unidad,Enunciado,Respuesta correcta,Distractores,Votos positivos')
+      end
+
+      it 'returns error when format is json' do
+        question
+
+        get :questions_csv, params: { id: course.id, format: :json }
+
+        expect(response).to have_http_status(:not_acceptable)
+        expect(response.content_type).to include('application/json')
+
+        json_response = JSON.parse(response.body)
+        expect(json_response).to have_key('error')
+        expect(json_response['error']).to eq('This endpoint only supports CSV format.')
+      end
+    end
+
+    context 'when user is not authorized' do
+      it 'raises CanCan::AccessDenied' do
+        allow(controller).to receive(:authorize!).and_raise(CanCan::AccessDenied)
+        expect {
+          get :questions_csv, params: { id: course.id, format: :csv }
+        }.to raise_error(CanCan::AccessDenied)
+      end
+    end
+  end
 end

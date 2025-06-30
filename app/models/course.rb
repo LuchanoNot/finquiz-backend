@@ -45,7 +45,42 @@ class Course < ApplicationRecord
     students.select { |student| student.questionnaires.any?(&:is_completed?) }
   end
 
+  def questions_csv_data
+    CSV.generate(headers: true) do |csv|
+      csv << [ "ID", "Tema", "Unidad", "Enunciado", "Respuesta correcta", "Distractores", "Votos positivos" ]
+
+      all_questions.generated.not_reported.each do |question|
+        topic_name = question.topic.name
+        unit_name = question.topic.unit.name
+        stem = question.stem
+
+        correct_option = question.options.find { |opt| opt.correct }
+        key = correct_option&.text || ""
+
+        distractors = question.options.reject { |opt| opt.correct }.map(&:text)
+
+        score = question.score
+
+        csv << [
+          question.id,
+          topic_name,
+          unit_name,
+          stem,
+          key,
+          distractors,
+          score
+        ]
+      end
+    end
+  end
+
   private
+
+  def all_questions
+    Question.joins(topic: { unit: :course })
+           .includes(:options, topic: :unit)
+           .where(topics: { units: { course_id: id } })
+  end
 
   def questionnaires_questions
     @questionnaires_questions ||= QuestionnairesQuestion.for_course(id)
