@@ -5,6 +5,7 @@ class QuestionGenService
   require "erb"
 
   PROMPT_VERSION = 2
+  PREVIOUS_TOPICS = ENV.fetch("PREVIOUS_TOPICS", "false").present?
 
   def initialize(client, history, debugger_mode = false)
     @client = client
@@ -42,7 +43,11 @@ class QuestionGenService
   private
 
   def process_complex_response
-    base_response = add_prompt(get_prompt_from_file("question/question_gen_v#{PROMPT_VERSION}"))
+    if PREVIOUS_TOPICS
+      base_response = add_prompt(get_prompt_from_file("question/question_gen_v#{PROMPT_VERSION}_with_previous_topics"))
+    else
+      base_response = add_prompt(get_prompt_from_file("question/question_gen_v#{PROMPT_VERSION}"))
+    end
     return nil unless base_response
 
     complex_response = add_prompt(get_prompt_from_file("question/complexer_v1"))
@@ -52,11 +57,19 @@ class QuestionGenService
   end
 
   def process_single_prompt
-    add_prompt(get_prompt_from_file("question/question_gen_v#{PROMPT_VERSION}"))
+    if PREVIOUS_TOPICS
+      add_prompt(get_prompt_from_file("question/question_gen_v#{PROMPT_VERSION}_with_previous_topics"))
+    else
+      add_prompt(get_prompt_from_file("question/question_gen_v#{PROMPT_VERSION}"))
+    end
   end
 
   def question_topics_prompt(topic_id)
     Topic.find(topic_id)&.prompt || ""
+  end
+
+  def topic_previous_topics_prompt(topic_id)
+    Topic.find(topic_id)&.previous_topics_prompt || ""
   end
 
   def question_type_prompt(question_type)

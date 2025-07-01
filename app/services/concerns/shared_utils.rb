@@ -6,7 +6,7 @@ module SharedUtils
     add_to_conversation("user", prompt)
     response = @client.chat(
       parameters: {
-        model: ENV["LLM_MODEL"] || "gemini-2.5-pro-preview-03-25",
+        model: ENV.fetch("LLM_MODEL", "gemini-2.5-pro-preview-03-25"),
         messages: @history,
         response_format: {
           type: :json_object
