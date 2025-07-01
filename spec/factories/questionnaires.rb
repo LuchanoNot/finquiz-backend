@@ -2,7 +2,13 @@ FactoryBot.define do
   factory :questionnaire do
     user { create(:user) }
 
-    after(:create) do |questionnaire|
+    transient do
+      skip_questions { false }
+    end
+
+    after(:create) do |questionnaire, evaluator|
+      next if evaluator.skip_questions
+
       # Create a course, unit, and topic structure if not provided
       course = create(:course, :with_units)
       unit = course.units.first
@@ -23,8 +29,7 @@ FactoryBot.define do
     end
 
     trait :without_questions do
-      # Override the callback completely
-      after(:create) { |questionnaire| }
+      skip_questions { true }
     end
   end
 end

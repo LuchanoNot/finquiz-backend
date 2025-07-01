@@ -17,6 +17,7 @@ class QuestionnairesQuestion < ApplicationRecord
   scope :incorrectly_answered, -> { joins(:answered_option).where(options: { correct: false }) }
   scope :for_course, ->(course_id) { joins(questionnaire: :units).where(units: { course_id: course_id }).distinct }
   scope :for_user, ->(user_id) { joins(:questionnaire).where(questionnaires: { user_id: user_id }) }
+  scope :by_topic, ->(topic_id) { joins(question: :topic).where(questions: { topic_id: }) }
 
   def correct
     answered_option&.correct

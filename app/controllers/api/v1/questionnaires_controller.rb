@@ -45,7 +45,11 @@ module Api
       private
 
       def set_questionnaire
-        @questionnaire = Questionnaire.find(params[:id])
+        if action_name == "summary"
+          @questionnaire = Questionnaire.with_stats_preload.find(params[:id])
+        else
+          @questionnaire = Questionnaire.find(params[:id])
+        end
       end
 
       def questionnaire_params

@@ -31,6 +31,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_05_184631) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "learning_aids", force: :cascade do |t|
+    t.string "name"
+    t.string "url"
+    t.bigint "topic_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["topic_id"], name: "index_learning_aids_on_topic_id"
+  end
+
   create_table "options", force: :cascade do |t|
     t.text "text", default: "", null: false
     t.boolean "correct", default: false, null: false
@@ -134,6 +143,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_05_184631) do
 
   add_foreign_key "course_users", "courses"
   add_foreign_key "course_users", "users"
+  add_foreign_key "learning_aids", "topics"
   add_foreign_key "options", "questions"
   add_foreign_key "questionnaires", "users"
   add_foreign_key "questionnaires_questions", "options", column: "answered_option_id"

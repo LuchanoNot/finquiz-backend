@@ -34,6 +34,16 @@ RSpec.describe Api::V1::TopicsController, type: :controller do
           post :create, params: { course_id: course.to_param, unit_id: unit.to_param, topic: valid_attributes }, format: :json
           expect(response).to have_http_status(:ok)
         end
+
+        context 'with learning_aids params' do
+          let(:valid_attributes) { attributes_for(:topic).merge(learning_aids_attributes: [ attributes_for(:learning_aid) ]) }
+
+          it 'creates a new LearningAid' do
+            expect {
+              post :create, params: { course_id: course.to_param, unit_id: unit.to_param, topic: valid_attributes }, format: :json
+            }.to change(LearningAid, :count).by(1)
+          end
+        end
       end
 
       context 'with valid params including question types' do
@@ -116,6 +126,31 @@ RSpec.describe Api::V1::TopicsController, type: :controller do
         it 'return 200 status' do
           put :update, params: { course_id: course.to_param, unit_id: unit.to_param, id: topic.to_param, topic: new_attributes }, format: :json
           expect(response).to have_http_status(:ok)
+        end
+
+        context 'with learning_aids params' do
+          let!(:learning_aid) { create(:learning_aid, topic: topic) }
+
+          describe 'update learning_aid' do
+            let(:new_attributes) { { learning_aids_attributes: [ { id: learning_aid.id, name: 'New Learning Aid Name', url: 'https://new-learning-aid.com' } ] } }
+
+            it 'updates the requested topic' do
+              put :update, params: { course_id: course.to_param, unit_id: unit.to_param, id: topic.to_param, topic: new_attributes }, format: :json
+              topic.reload
+              expect(topic.learning_aids.first.name).to eq('New Learning Aid Name')
+              expect(topic.learning_aids.first.url).to eq('https://new-learning-aid.com')
+            end
+          end
+
+          describe 'destroy learning_aid' do
+            let(:new_attributes) { { learning_aids_attributes: [ { id: learning_aid.id, _destroy: true } ] } }
+
+            it 'destroys the requested learning_aid' do
+              expect {
+                put :update, params: { course_id: course.to_param, unit_id: unit.to_param, id: topic.to_param, topic: new_attributes }, format: :json
+              }.to change(LearningAid, :count).by(-1)
+            end
+          end
         end
       end
 

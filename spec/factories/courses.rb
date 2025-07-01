@@ -9,8 +9,12 @@ FactoryBot.define do
     end
 
     trait :with_units do
-      after(:create) do |course|
-        create_list(:unit, 3, course: course)
+      transient do
+        units_count { 3 }
+      end
+
+      after(:create) do |course, evaluator|
+        create_list(:unit, evaluator.units_count, course: course)
       end
     end
   end
