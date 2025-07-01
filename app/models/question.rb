@@ -12,6 +12,7 @@ class Question < ActiveRecord::Base
 
   scope :reported, -> { where("score < 0") }
   scope :not_reported, -> { where("score >= 0") }
+  scope :generated, -> { where(generating: false) }
 
   def correct_option
     options.correct.first

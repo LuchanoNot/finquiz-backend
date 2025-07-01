@@ -4,6 +4,7 @@ gem "rails", "~> 8.0.2"
 gem "pg", "~> 1.5", ">= 1.5.9"
 gem "puma", ">= 5.0"
 gem "jbuilder", "~> 2.13"
+gem "csv", "~> 3.3", ">= 3.3.5"
 
 gem "devise", "~> 4.9", ">= 4.9.4"
 gem "devise_token_auth", "~> 1.2", ">= 1.2.5"

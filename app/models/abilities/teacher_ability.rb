@@ -18,7 +18,7 @@ module Abilities
     private
 
     def courses_policy
-      @ability.can [ :read, :update, :reports ], Course, users: { id: @user.id }
+      @ability.can [ :read, :update, :reports, :export ], Course, users: { id: @user.id }
     end
 
     def units_policy
