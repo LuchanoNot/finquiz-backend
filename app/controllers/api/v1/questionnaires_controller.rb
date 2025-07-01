@@ -29,7 +29,7 @@ module Api
 
         unit_topics.each do |unit_topic|
           questions_per_topic.times do
-            @questionnaire.questions.create!(stem: "GENERATING QUESTION", generating: true, topic_id: unit_topic.topic_id)
+            @questionnaire.questions.create!(stem: "GENERATING QUESTION", generating: true, topic: unit_topic)
           end
         end
 

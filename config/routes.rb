@@ -16,6 +16,7 @@ Rails.application.routes.draw do
       end
 
       resources :courses, only: [ :show, :update ] do
+        get :reports, on: :member
         resources :units, only: [ :show, :create, :update ] do
           resources :topics, only: [ :create, :update, :destroy ]
         end

@@ -99,4 +99,26 @@ RSpec.describe Api::V1::CoursesController, type: :controller do
       end
     end
   end
+
+  describe 'GET #reports' do
+    context 'when user is authorized' do
+      before do
+        allow(controller).to receive(:authorize!).and_return(true)
+        get :reports, params: { id: course.id }
+      end
+
+      it 'returns http success' do
+        expect(response).to have_http_status(:success)
+      end
+    end
+
+    context 'when user is not authorized' do
+      it 'raises CanCan::AccessDenied' do
+        allow(controller).to receive(:authorize!).and_raise(CanCan::AccessDenied)
+        expect {
+          get :reports, params: { id: course.id }
+        }.to raise_error(CanCan::AccessDenied)
+      end
+    end
+  end
 end
