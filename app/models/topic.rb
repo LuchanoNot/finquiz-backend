@@ -5,6 +5,7 @@ class Topic < ApplicationRecord
   has_many :questions, dependent: :destroy
   has_many :topic_prerequisites, foreign_key: :topic_id, dependent: :destroy
   has_many :prerequisite_topics, through: :topic_prerequisites, source: :prerequisite_topic
+  has_many :inverse_topic_prerequisites, class_name: "TopicPrerequisite", foreign_key: :prerequisite_topic_id, dependent: :destroy
 
   validates :name, :description, :short_description, presence: true
 
@@ -15,6 +16,15 @@ class Topic < ApplicationRecord
       Ten en cuenta las siguientes notas:
       #{notes}
     QUESTION_TOPIC
+  end
+
+  def previous_topics_prompt
+    return "" unless prerequisite_topics.present?
+
+    <<~PREVIOUS_TOPICS
+      Los temas previos a este son:
+      #{prerequisite_topics.map { |t| "- #{t.name}:  #{t.short_description}" }.join("\n")}
+    PREVIOUS_TOPICS
   end
 
   def self.topics_with_rate(primary_topics, secondary_topics, threshold = 70)
