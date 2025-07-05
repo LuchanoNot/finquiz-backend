@@ -42,7 +42,7 @@ La clave es la única opción correcta que responde con precisión y sin ambigü
 
 ## **Formato de la Pregunta**
 
-<%= question_type_prompt(@question_type) %>
+<%= question_type_prompt(@topic_id) %>
 
 ## **Formato de Salida**
 

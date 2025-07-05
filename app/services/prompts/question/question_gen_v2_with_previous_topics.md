@@ -51,7 +51,7 @@ Los siguientes temas fueron vistos anteriormente en el curso. Puedes usarlos par
 
 ## **Formato de la Pregunta**
 
-<%= question_type_prompt(@question_type) %>
+<%= question_type_prompt(@topic_id) %>
 
 ## **Formato de Salida**
 
