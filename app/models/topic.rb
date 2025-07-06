@@ -4,10 +4,14 @@ class Topic < ApplicationRecord
   include QuestionTypes
 
   belongs_to :unit
+
   has_many :questions, dependent: :destroy
   has_many :topic_prerequisites, foreign_key: :topic_id, dependent: :destroy
   has_many :prerequisite_topics, through: :topic_prerequisites, source: :prerequisite_topic
   has_many :inverse_topic_prerequisites, class_name: "TopicPrerequisite", foreign_key: :prerequisite_topic_id, dependent: :destroy
+  has_many :learning_aids, dependent: :destroy
+
+  accepts_nested_attributes_for :learning_aids, allow_destroy: true
 
   validates :name, :description, :short_description, presence: true
   validate :question_types_must_be_valid
