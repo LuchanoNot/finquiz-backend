@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Topic < ApplicationRecord
+  include QuestionTypes
+
   belongs_to :unit
   has_many :questions, dependent: :destroy
   has_many :topic_prerequisites, foreign_key: :topic_id, dependent: :destroy
@@ -8,6 +10,24 @@ class Topic < ApplicationRecord
   has_many :inverse_topic_prerequisites, class_name: "TopicPrerequisite", foreign_key: :prerequisite_topic_id, dependent: :destroy
 
   validates :name, :description, :short_description, presence: true
+  validate :question_types_must_be_valid
+
+  def self.topics_with_rate(primary_topics, secondary_topics, threshold = 70)
+    answered_rate = {}
+
+    primary_topics.each do |topic_id, primary_count|
+      secondary_count = secondary_topics[topic_id]&.to_i || 0
+      total_count = primary_count + secondary_count
+
+      if total_count > 0
+        rate = (primary_count.to_f / total_count * 100).round(2)
+        answered_rate[topic_id] = rate
+      end
+    end
+
+    filtered_topics = answered_rate.select { |_, rate| rate >= threshold }
+    Topic.where(id: filtered_topics.keys)
+  end
 
   def prompt
     <<~QUESTION_TOPIC
@@ -27,20 +47,18 @@ class Topic < ApplicationRecord
     PREVIOUS_TOPICS
   end
 
-  def self.topics_with_rate(primary_topics, secondary_topics, threshold = 70)
-    answered_rate = {}
+  def question_type_prompt
+    QUESTION_TYPE_PROMPTS[question_types.sample] || CORRECT_OUTPUT
+  end
 
-    primary_topics.each do |topic_id, primary_count|
-      secondary_count = secondary_topics[topic_id]&.to_i || 0
-      total_count = primary_count + secondary_count
+  private
 
-      if total_count > 0
-        rate = (primary_count.to_f / total_count * 100).round(2)
-        answered_rate[topic_id] = rate
-      end
+  def question_types_must_be_valid
+    return if question_types.blank?
+
+    invalid_types = question_types - QUESTION_TYPES
+    if invalid_types.any?
+      errors.add(:question_types, "contains invalid types: #{invalid_types.join(', ')}. Valid types are: #{QUESTION_TYPES.join(', ')}")
     end
-
-    filtered_topics = answered_rate.select { |_, rate| rate >= threshold }
-    Topic.where(id: filtered_topics.keys)
   end
 end

@@ -9,6 +9,12 @@ RSpec.describe Api::V1::TopicsController, type: :controller do
 
   let(:valid_attributes) { attributes_for(:topic) }
   let(:invalid_attributes) { attributes_for(:topic, name: nil) }
+  let(:valid_attributes_with_question_types) {
+    attributes_for(:topic).merge(question_types: [ 'correct_output', 'fill_in_the_blank' ])
+  }
+  let(:invalid_question_types_attributes) {
+    attributes_for(:topic).merge(question_types: [ 'invalid_type', 'another_invalid' ])
+  }
 
   describe 'POST #create' do
     context 'when user is authenticated and authorized as teacher' do
@@ -30,6 +36,25 @@ RSpec.describe Api::V1::TopicsController, type: :controller do
         end
       end
 
+      context 'with valid params including question types' do
+        it 'creates a new Topic with question types' do
+          expect {
+            post :create, params: { course_id: course.to_param, unit_id: unit.to_param, topic: valid_attributes_with_question_types }, format: :json
+          }.to change(Topic, :count).by(1)
+        end
+
+        it 'saves the question types correctly' do
+          post :create, params: { course_id: course.to_param, unit_id: unit.to_param, topic: valid_attributes_with_question_types }, format: :json
+          created_topic = Topic.last
+          expect(created_topic.question_types).to eq([ 'correct_output', 'fill_in_the_blank' ])
+        end
+
+        it 'returns 200 status' do
+          post :create, params: { course_id: course.to_param, unit_id: unit.to_param, topic: valid_attributes_with_question_types }, format: :json
+          expect(response).to have_http_status(:ok)
+        end
+      end
+
       context 'with invalid params' do
         it 'does not create a new Topic' do
           expect {
@@ -39,6 +64,19 @@ RSpec.describe Api::V1::TopicsController, type: :controller do
 
         it 'renders a JSON response with errors for the new topic' do
           post :create, params: { course_id: course.to_param, unit_id: unit.to_param, topic: invalid_attributes }, format: :json
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
+      end
+
+      context 'with invalid question types' do
+        it 'does not create a topic with invalid question types' do
+          expect {
+            post :create, params: { course_id: course.to_param, unit_id: unit.to_param, topic: invalid_question_types_attributes }, format: :json
+          }.to change(Topic, :count).by(0)
+        end
+
+        it 'renders a JSON response with validation errors' do
+          post :create, params: { course_id: course.to_param, unit_id: unit.to_param, topic: invalid_question_types_attributes }, format: :json
           expect(response).to have_http_status(:unprocessable_entity)
         end
       end
@@ -60,6 +98,7 @@ RSpec.describe Api::V1::TopicsController, type: :controller do
 
   describe 'PUT #update' do
     let(:new_attributes) { { name: 'New Topic Name' } }
+    let(:new_attributes_with_question_types) { { name: 'Updated Topic', question_types: [ 'code_analysis', 'recall' ] } }
 
     context 'when user is authenticated and authorized' do
       before do
@@ -76,6 +115,20 @@ RSpec.describe Api::V1::TopicsController, type: :controller do
 
         it 'return 200 status' do
           put :update, params: { course_id: course.to_param, unit_id: unit.to_param, id: topic.to_param, topic: new_attributes }, format: :json
+          expect(response).to have_http_status(:ok)
+        end
+      end
+
+      context 'with valid params including question types' do
+        it 'updates the topic with question types' do
+          put :update, params: { course_id: course.to_param, unit_id: unit.to_param, id: topic.to_param, topic: new_attributes_with_question_types }, format: :json
+          topic.reload
+          expect(topic.name).to eq('Updated Topic')
+          expect(topic.question_types).to eq([ 'code_analysis', 'recall' ])
+        end
+
+        it 'returns 200 status' do
+          put :update, params: { course_id: course.to_param, unit_id: unit.to_param, id: topic.to_param, topic: new_attributes_with_question_types }, format: :json
           expect(response).to have_http_status(:ok)
         end
       end
