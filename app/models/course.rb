@@ -47,7 +47,7 @@ class Course < ApplicationRecord
 
   def questions_csv_data
     CSV.generate(headers: true) do |csv|
-      csv << [ "ID", "Tema", "Unidad", "Enunciado", "Respuesta correcta", "Distractores", "Votos positivos" ]
+      csv << [ "ID", "Tema", "Unidad", "Enunciado", "Respuesta correcta", "Distractores", "Votos positivos", "Explicación" ]
 
       all_questions.generated.not_reported.each do |question|
         topic_name = question.topic.name
@@ -55,6 +55,7 @@ class Course < ApplicationRecord
         stem = question.stem
 
         correct_option = question.options.find { |opt| opt.correct }
+        explanation = correct_option.explanation
         key = correct_option&.text || ""
 
         distractors = question.options.reject { |opt| opt.correct }.map(&:text)
@@ -68,7 +69,8 @@ class Course < ApplicationRecord
           stem,
           key,
           distractors,
-          score
+          score,
+          explanation
         ]
       end
     end

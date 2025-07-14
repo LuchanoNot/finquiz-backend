@@ -402,3 +402,5 @@ topic_28 = Topic.find_or_create_by!(
   question_types: [ 'correct_output' ]
 )
 topic_28.prerequisite_topics = [ topic_26, topic_11, topic_12 ]
+
+puts "Topics created: #{Topic.count}!!! :)"

@@ -175,14 +175,14 @@ RSpec.describe Course, type: :model do
       let(:unit) { create(:unit, course: course, name: 'Test Unit') }
       let(:topic) { create(:topic, unit: unit, name: 'Test Topic') }
       let(:question) { create(:question, topic: topic, stem: 'Test question?', score: 10, generating: false) }
-      let!(:correct_option) { create(:option, question: question, text: 'Correct answer', correct: true) }
+      let!(:correct_option) { create(:option, question: question, text: 'Correct answer', correct: true, explanation: 'Correct explanation') }
       let!(:incorrect_option) { create(:option, question: question, text: 'Wrong answer', correct: false) }
 
       it 'generates CSV data with proper headers' do
         csv_data = course.questions_csv_data
         lines = csv_data.split("\n")
 
-        expect(lines.first).to eq('ID,Tema,Unidad,Enunciado,Respuesta correcta,Distractores,Votos positivos')
+        expect(lines.first).to eq('ID,Tema,Unidad,Enunciado,Respuesta correcta,Distractores,Votos positivos,Explicación')
       end
 
       it 'includes question data in CSV format' do
@@ -196,6 +196,7 @@ RSpec.describe Course, type: :model do
         expect(lines.last).to include('Correct answer')
         expect(lines.last).to include('Wrong answer')
         expect(lines.last).to include('10')
+        expect(lines.last).to include('Correct explanation')
       end
 
       it 'excludes questions with negative scores (reported questions)' do
@@ -204,7 +205,7 @@ RSpec.describe Course, type: :model do
         lines = csv_data.split("\n")
 
         expect(lines.length).to eq(1)
-        expect(lines.first).to eq('ID,Tema,Unidad,Enunciado,Respuesta correcta,Distractores,Votos positivos')
+        expect(lines.first).to eq('ID,Tema,Unidad,Enunciado,Respuesta correcta,Distractores,Votos positivos,Explicación')
         expect(csv_data).not_to include('Test question?')
         expect(csv_data).not_to include('-5')
       end
