@@ -54,4 +54,5 @@ group :development, :test do
   gem "rubocop-rails-omakase", "~> 1.1"
 
   gem "dotenv-rails", "~> 3.1", ">= 3.1.7"
+  gem "simplecov", "~> 0.22.0"
 end
