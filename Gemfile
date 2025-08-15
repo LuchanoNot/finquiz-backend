@@ -49,6 +49,7 @@ group :development, :test do
   gem "factory_bot_rails", "~> 6.4", ">= 6.4.4"
   gem "faker", "~> 3.5", ">= 3.5.1"
   gem "database_cleaner", "~> 2.1"
+  gem "nokogiri", "~> 1.18", ">= 1.18.9"
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", "~> 1.1"

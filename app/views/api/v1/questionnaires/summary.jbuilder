@@ -13,6 +13,7 @@ json.questions @questionnaire.questionnaires_questions.in_order do |questionnair
   json.stem questionnaire_question.question.stem
   json.correct questionnaire_question.correct
   json.answered_option_id questionnaire_question.answered_option_id
+  json.score questionnaire_question.question.score
 
   json.explanation questionnaire_question.question.correct_option.explanation
 

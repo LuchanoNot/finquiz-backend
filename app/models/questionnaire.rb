@@ -52,7 +52,7 @@ class Questionnaire < ApplicationRecord
   end
 
   def stats
-    topic_stats = questionnaires_questions
+    topic_stats = questionnaires_questions.not_reported
       .joins(question: :topic)
       .group("topics.id, topics.name")
       .select(
