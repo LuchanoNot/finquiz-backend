@@ -18,7 +18,7 @@ u1_unit.save!
 topic_1 = Topic.find_or_create_by!(
   name: 'Tipos de Datos Numéricos y Expresiones',
   short_description: 'Sintaxis de identificadores, el concepto de tipo de dato y las características de los tipos numéricos (integer, real), incluyendo operadores, coerción y precedencia.',
-  description: "### Sintaxis de Identificadores\nUn identificador es el nombre que se le da a variables, constantes, programas, etc.\n- Regla: Debe comenzar con una letra, seguida de cualquier combinación de letras o dígitos.\n- Notación BNF: identificador = letra { letra | digito }\n\n### El Concepto de Tipo de Dato\n- Definición: Un tipo especifica la naturaleza de los datos que una variable o constante puede contener (por ejemplo, si son números, texto, etc.).\n- Propósito: Permite al compilador detectar errores de construcción en el código, como intentar sumar un número y una letra. En Pascal, este chequeo de tipos se realiza en tiempo de compilación.\n- Clasificación: \n - Por estructura: elementales (indivisibles, como un número) y estructurados (compuestos, como un registro).\n - Por origen: estándar (predefinidos en el lenguaje) y definidos por el programador.\n\n### Tipos Numéricos y Expresiones\n#### Tipo integer\n- Descripción: Representa números enteros con o sin signo.\n- Propiedad: Es un tipo acotado, lo que significa que tiene un valor máximo (maxint).\n- Operadores: + (suma), - (resta), * (multiplicación), div (división entera), mod (resto de la división).\n\n#### Tipo real\n- Descripción: Representa números con parte decimal.\n- Notación: Las constantes pueden ser decimales (ej. 3.14) o exponenciales (ej. 3.14E2 que es 314.0).\n- Operadores: + (suma), - (resta), * (multiplicación), / (división real).\n\n#### Operaciones Mixtas y Precedencia\n- Sobrecarga: Un mismo operador (como +, *) funciona para diferentes tipos (enteros y reales).\n- Coerción: Conversión automática de un tipo a otro. Por ejemplo, en 3 + 2.5, el entero 3 se convierte a 3.0 antes de la suma. También es posible asignar un valor entero a una variable real.\n- Precedencia de Operadores: El orden para evaluar expresiones es:\n 1. Expresiones entre paréntesis ().\n 2. Operadores de multiplicación y división: *, /, div, mod (de izquierda a derecha).\n 3. Operadores de suma y resta: +, - (de izquierda a derecha).\n\n#### Funciones Aritméticas Estándar\n- sqr(x): Retorna el cuadrado de x.\n- sqrt(x): Retorna la raíz cuadrada de x.\n- trunc(x): Convierte un real a entero truncando la parte decimal.\n- round(x): Convierte un real a entero redondeando al más cercano.\n- abs(x): Retorna el valor absoluto de x.",
+  description: "### Sintaxis de Identificadores\nUn identificador es el nombre que se le da a variables, constantes, programas, etc.\n- Regla: Debe comenzar con una letra, seguida de cualquier combinación de letras o dígitos.\n- Notación BNF: identificador = letra { letra | digito }\n\n### El Concepto de Tipo de Dato\n- Definición: Un tipo especifica la naturaleza de los datos que una variable o constante puede contener (por ejemplo, si son números, texto, etc.).\n- Propósito: Permite al compilador detectar errores de construcción en el código, como intentar sumar un número y una letra. En Pascal, este chequeo de tipos se realiza en tiempo de compilación.\n- Clasificación: \n - Por estructura: elementales (indivisibles, como un número) y estructurados (compuestos, como un registro).\n - Por origen: estándar (predefinidos en el lenguaje) y definidos por el programador.\n\n### Tipos Numéricos y Expresiones\n#### Tipo integer\n- Descripción: Representa números enteros con o sin signo.\n- Propiedad: Es un tipo acotado, lo que significa que tiene un valor máximo (maxint).\n- Operadores: + (suma), - (resta), * (multiplicación), div (división entera), mod (resto de la división).\n\n#### Tipo real\n- Descripción: Representa números con parte decimal.\n- Notación: Las constantes pueden ser decimales (ej. 3.14) o exponenciales (ej. 3.14E2 que es 314.0).\n- Operadores: + (suma), - (resta), * (multiplicación), / (división real).\n\n#### Operaciones Mixtas y Precedencia\n- Sobrecarga: Un mismo operador (como +, *) funciona para diferentes tipos (enteros y reales).\n- Coerción: Conversión automática de un tipo a otro. Por ejemplo, en 3 + 2.5, el entero 3 se convierte a 3.0 antes de la suma. También es posible asignar un valor entero a una variable real.\n- Precedencia de Operadores: El orden para evaluar expresiones es:\n 1. Expresiones entre paréntesis ().\n 2. Operadores de multiplicación y división: *, /, div, mod (de izquierda a derecha).\n 3. Operadores de suma y resta: +, - (de izquierda a derecha).\n\n#### Funciones Aritméticas Estándar\n- sqr(x): Retorna el cuadrado de x.\n- sqrt(x): Retorna la raíz cuadrada de x.\n- trunc(x): Convierte un real a entero truncando la parte decimal.\n- abs(x): Retorna el valor absoluto de x.",
   unit: u1_unit,
   question_types: [ 'correct_output' ]
 )
@@ -107,7 +107,7 @@ u2_unit = Unit.find_or_create_by!(
 u2_unit.save!
 
 topic_4 = Topic.find_or_create_by!(
-  name: 'Estructura de Selección Condicional: if-then-else',
+  name: 'Selección Condicional: if-then-else',
   short_description: 'Permite la ejecución condicional de código. Se evalúa una expresión booleana y, dependiendo de si es verdadera o falsa, se ejecuta un bloque de instrucciones u otro.',
   description: "La instrucción if-then-else es una estructura de control de selección que dirige el flujo de un programa por una de dos rutas posibles.\n\n### Semántica y Sintaxis\n* if-then-else: Evalúa una condición. Si es true, ejecuta la instrucción que sigue a then. Si es false, ejecuta la instrucción que sigue a else.\n * Estructura:\n pascal\n if expresion_booleana then\n instruccion_1\n else\n instruccion_2\n\n* if-then: Es una variante donde no hay una acción alternativa. Si la condición es true, ejecuta la instrucción post-then. Si es false, no hace nada y continúa con la siguiente instrucción del programa.\n * Estructura:\n pascal\n if expresion_booleana then\n instruccion_1\n\n* Reglas Sintácticas Clave:\n * Las palabras if, then, y else son reservadas.\n * La expresión evaluada debe ser de tipo booleana (true o false).\n * No se debe colocar un punto y coma (;) antes de la palabra else.\n\n### Anidamiento e Indentación\n* Anidamiento: Las instrucciones dentro de un if (tanto en la parte then como en la else) pueden ser a su vez otras estructuras de control, incluyendo otros if. Esto permite crear lógicas complejas. Para agrupar varias instrucciones, se utiliza un bloque de secuencia begin...end.\n* Regla del \"else anidado\" (Dangling Else): Cada else se asocia con el if más cercano que aún no ha sido cerrado por otro else. Para forzar que un else se asocie a un if anterior, se debe encerrar el if interior en un bloque begin...end.\n* Indentación: Aunque el compilador la ignora, la indentación (uso de espacios al inicio de las líneas) es crucial para la legibilidad del código. Ayuda a visualizar la estructura lógica, especialmente con sentencias anidadas. Existen varios estilos de indentación, como el estilo Wirth o el estilo Kernighan-Ritchie.\n\n### Ejemplo: Determinar si un número es par o impar\npascal\nprogram ParImpar;\nvar\n numero: integer;\nbegin\n write('Ingrese numero: ');\n readln(numero);\n if numero mod 2 = 0 then\n writeln('El numero ingresado es par')\n else\n writeln('El numero ingresado es impar')\nend.",
   unit: u2_unit,
@@ -127,7 +127,7 @@ topic_5 = Topic.find_or_create_by!(
 topic_5.prerequisite_topics = [ topic_1, topic_2, topic_4 ]
 
 topic_6 = Topic.find_or_create_by!(
-  name: 'Estructura de Selección Múltiple: case',
+  name: 'Selección Múltiple: case',
   short_description: 'Permite seleccionar una de varias rutas de ejecución basándose en el valor de una expresión de tipo ordinal. Es una alternativa más limpia y legible a una larga cadena de sentencias if-then-else anidadas.',
   description: "La instrucción case es una estructura de selección generalizada que permite elegir una instrucción de un conjunto de posibles acciones, basándose en el valor de una única expresión.\n\n### Sintaxis y Semántica\nLa estructura básica de un case es la siguiente:\npascal\ncase expresion of\n constante_1: instruccion_1;\n constante_2, constante_3: instruccion_2;\n ...\n constante_n: instruccion_n;\nelse // Variante de Free Pascal\n instruccion_alternativa;\nend;\n\n* Funcionamiento:\n 1. Se evalúa la expresion.\n 2. Se compara el resultado con las listas de constantes.\n 3. Si se encuentra una coincidencia, se ejecuta la instruccion asociada a esa constante y luego el control salta al final de la estructura case.\n 4. Cada instrucción puede estar etiquetada con una o más constantes, separadas por comas.\n\n* Reglas Clave:\n * Las palabras case, of, end (y else en Free Pascal) son reservadas.\n * La expresion debe ser de un tipo ordinal (ej. integer, char, boolean, tipos enumerados), pero no de tipo real.\n * Las constantes deben ser del mismo tipo que la expresion y no pueden repetirse en diferentes ramas.\n\n### Manejo de Casos no Contemplados\n* Pascal Estándar: Si el valor de la expresión no coincide con ninguna de las constantes, se produce un error en tiempo de ejecución.\n* Free Pascal (Modificación): Introduce una cláusula else opcional.\n * Si se especifica la cláusula else, su instrucción asociada se ejecuta cuando no hay ninguna coincidencia.\n * Si no se especifica la cláusula else y no hay coincidencia, no se ejecuta nada y no se produce ningún error.\n\n### Relación con if\n* Un if exp then inst1 else inst2 es equivalente a:\n pascal\n case exp of\n true: inst1;\n false: inst2;\n end;\n\n* Una estructura case compleja es equivalente a una serie de if-then-else if:\n pascal\n // Equivalente a:\n if (v=a1) or (v=a2) then\n inst-a\n else if (v=b1) or (v=b2) then\n inst-b\n ...\n\n### ¿Cuándo usar case?\nEs preferible usar case en lugar de if-then-else anidados cuando:\n1. La selección es entre más de dos alternativas.\n2. La decisión se basa en el valor de una única expresión simple de tipo ordinal.\n3. Es ideal para implementar menús donde el usuario ingresa una opción.",
   unit: u2_unit,
@@ -147,7 +147,7 @@ u3_unit = Unit.find_or_create_by!(
 u3_unit.save!
 
 topic_7 = Topic.find_or_create_by!(
-  name: "La Instrucción de Repetición 'for'",
+  name: "Repetición: for",
   short_description: "Análisis detallado de la instrucción 'for', que ejecuta un bloque de código un número predeterminado de veces. Se cubre su sintaxis, semántica para iteración ascendente y descendente, y reglas importantes de uso.",
   description: "La instrucción for es una estructura de repetición determinada, utilizada cuando se conoce de antemano el número de veces que se debe ejecutar un bloque de código. Funciona iterando sobre un rango de valores de tipo escalar.\n\n### Sintaxis y Componentes\nLa sintaxis formal de la instrucción, según la notación BNF, es:\nsentencia_for ::= 'for' identificador := expresión1 ('to'|'downto') expresión2 'do' instrucción\n\n* identificador: Es la variable de control del bucle. Debe ser de un tipo de dato escalar (ordinal), como integer, char, boolean o un tipo enumerado. No puede ser de tipo real.\n* expresión1 y expresión2: Definen los límites inferior y superior del rango de iteración. Deben ser del mismo tipo que el identificador. Estos valores se calculan una sola vez antes de que comience la primera iteración.\n* to / downto: Palabras reservadas que indican la dirección de la iteración. to es para un conteo ascendente (incremental) y downto para un conteo descendente (decremental).\n* instrucción: Es la sentencia o bloque de sentencias (begin...end) que se ejecutará en cada iteración.\n\n### Semántica (Cómo funciona)\n1. Inicialización: Se evalúan expresión1 y expresión2 para obtener los valores de inicio (v1) y fin (v2).\n2. Ejecución: \n * Con to: Si v1 > v2, el bucle no se ejecuta ni una vez. De lo contrario, la variable de control toma el valor de v1, se ejecuta la instrucción, luego la variable toma el siguiente valor (succ(v)) y así sucesivamente hasta que la variable de control sea igual a v2. Tras ejecutar la instrucción para v2, el bucle termina.\n * Con downto: Si v1 < v2, el bucle no se ejecuta. De lo contrario, el proceso es análogo, pero la variable de control se decrementa (pred(v)) en cada paso.\n\n### Observaciones y Reglas Cruciales\n* Modificación de la variable de control: Se considera un error que la instrucción dentro del bucle intente modificar el valor de la variable de control.\n* Valor final de la variable de control: Después de que el bucle for termina, el valor de la variable de control se considera indefinido. No se debe confiar en su valor fuera del bucle.\n* Terminación: Un bucle for siempre termina, ya que el número de iteraciones está determinado desde el principio.\n* Modificación de los límites: No se recomienda que la instrucción modifique las variables usadas en expresión1 y expresión2, ya que no tendría efecto en el número de iteraciones, pues los límites del bucle se fijaron al inicio.\n\n### Casos de Uso Comunes\n* Repetir una acción un número fijo de veces.\n* Utilizar el valor de la variable de control dentro del bucle (ej. writeln(2 * i)).\n* Anidar bucles for para procesar estructuras bidimensionales (ej. dibujar un cuadrado o una matriz).\n* Acumular resultados, como sumas o conteos, a lo largo de las iteraciones.",
   unit: u3_unit,
@@ -157,7 +157,7 @@ topic_7 = Topic.find_or_create_by!(
 topic_7.prerequisite_topics = [ topic_1, topic_2, topic_5 ]
 
 topic_8 = Topic.find_or_create_by!(
-  name: "La Instrucción de Repetición Condicional 'while'",
+  name: "Repetición Condicional: while",
   short_description: "Explica el bucle 'while', que ejecuta un bloque de código repetidamente mientras una condición booleana sea verdadera. La condición se evalúa antes de cada iteración, por lo que el bloque podría no ejecutarse nunca.",
   description: "La instrucción while es una estructura de repetición condicional que se ejecuta un número indeterminado de veces, dependiendo de una condición.\n\n### Sintaxis\nLa estructura de un bucle while es:\nwhile expresión_booleana do instrucción\n\n* while y do son palabras reservadas.\n* expresión_booleana: Es la condición que se evalúa antes de cada iteración. Debe resultar en un valor true o false.\n* instrucción: Es el cuerpo del bucle. Si se necesita ejecutar más de una instrucción, deben agruparse en un bloque begin...end.\n\n### Semántica (Funcionamiento)\n1. Se evalúa la expresión_booleana.\n2. Si el resultado es false, el bucle termina y el programa continúa con la siguiente instrucción. El cuerpo del bucle no se ejecuta.\n3. Si el resultado es true, se ejecuta la instrucción del cuerpo del bucle.\n4. Se vuelve al paso 1 para reevaluar la condición.\n\nEs crucial que alguna acción dentro de la instrucción modifique las variables de la condición para que, eventualmente, esta se vuelva false y el bucle pueda terminar. De lo contrario, se crearía un bucle infinito.\n\n### Patrón de Lectura con Centinela\nUn uso muy común del bucle while es para procesar una lista de datos de longitud desconocida, utilizando un valor especial llamado centinela para marcar el final.\nEl esquema es:\n1. Lectura adelantada: Leer el primer dato antes de entrar al bucle.\n2. Bucle while: La condición del bucle comprueba que el dato leído no sea el centinela.\n3. Procesamiento: Dentro del bucle, se procesa el dato actual.\n4. Siguiente lectura: Al final del cuerpo del bucle, se lee el siguiente dato. Esto prepara la siguiente iteración.\nEste patrón asegura que el valor centinela nunca sea procesado.\n\n### Ejemplos\n* Suma de números: Leer números hasta que se ingrese uno negativo (el centinela).\n* Verificación de número primo: Buscar un divisor para n en un bucle que se ejecuta mientras el divisor sea menor o igual que la raíz de n y aún no se haya encontrado un divisor.\n* Uso de banderas booleanas: Una variable booleana (bandera) puede controlar el bucle, y su valor se cambia dentro del mismo cuando se cumple una condición de parada.",
   unit: u3_unit,
@@ -167,7 +167,7 @@ topic_8 = Topic.find_or_create_by!(
 topic_8.prerequisite_topics = [ topic_1, topic_2, topic_5 ]
 
 topic_9 = Topic.find_or_create_by!(
-  name: "La Instrucción de Repetición Condicional 'repeat...until'",
+  name: "Repetición Condicional: repeat...until",
   short_description: "Describe el bucle 'repeat...until', que ejecuta un bloque de código al menos una vez y lo repite hasta que una condición booleana se cumpla (sea verdadera). La condición se evalúa después de cada iteración.",
   description: "La instrucción repeat...until es una estructura de repetición condicional que garantiza que el cuerpo del bucle se ejecute como mínimo una vez.\n\n### Sintaxis\nLa estructura es:\nrepeat instrucción_1; instrucción_2; ... until expresión_booleana\n\n* repeat y until son palabras reservadas que delimitan el bloque de código. Por esta razón, no es necesario usar begin...end para agrupar múltiples instrucciones.\n* expresión_booleana: Es la condición de terminación. El bucle se repite hasta que esta expresión sea true.\n\n### Semántica (Funcionamiento)\n1. Se ejecuta la secuencia de instrucciones que forman el cuerpo del bucle.\n2. Se evalúa la expresión_booleana.\n3. Si el resultado es false, se vuelve al paso 1 y se repite la ejecución del cuerpo.\n4. Si el resultado es true, el bucle termina y el programa continúa.\n\nLa principal diferencia con while es que el cuerpo siempre se ejecuta al menos una vez, ya que la comprobación de la condición se realiza al final de la iteración.\n\n### Relación con while\nUna instrucción repeat...until puede ser simulada con una instrucción while. La siguiente estructura:\npascal\nrepeat\n S; // Cuerpo del bucle\nuntil C; // Condición\n\nEs lógicamente equivalente a:\npascal\nS; // Ejecutar el cuerpo una vez\nwhile not C do\nbegin\n S; // Repetir mientras la condición sea falsa\nend;\n\n\n### Casos de Uso Comunes\n* Validación de entrada de usuario: Se utiliza para solicitar un dato al usuario y repetir la solicitud hasta que el valor ingresado sea válido. Se necesita ejecutar la petición al menos una vez.\n* Procesamiento de texto: Como se muestra en el ejemplo de contar palabras, se usa para saltar caracteres (ej. espacios) hasta encontrar uno diferente, o para leer caracteres hasta encontrar un delimitador. En ambos casos, es necesario procesar al menos un carácter para poder tomar una decisión.",
   unit: u3_unit,
@@ -185,44 +185,34 @@ u4_unit = Unit.find_or_create_by!(
 )
 u4_unit.save!
 
-topic_10 = Topic.find_or_create_by!(
-  name: 'Fundamentos de Subprogramas y Modularización',
-  short_description: 'Introduce el concepto de subprogramas (funciones y procedimientos) como herramientas para la modularización, dividiendo un programa complejo en partes más pequeñas y manejables. Describe la estructura general de un bloque de código en Pascal.',
-  description: "Un subprograma es un fragmento de código independiente que realiza una tarea específica dentro de un programa más grande. Es la principal herramienta para la modularización, permitiendo dividir un problema complejo en subproblemas más sencillos, mejorando la legibilidad, el mantenimiento y la reutilización del código.\n\nExisten dos tipos de subprogramas: funciones y procedimientos.\n\nLa comunicación entre el programa principal y los subprogramas se realiza a través del pasaje de parámetros. Cada subprograma tiene su propio espacio de nombres, con identificadores locales (parámetros y variables declaradas internamente) que solo existen dentro de él. También pueden acceder a identificadores globales, que son aquellos declarados en el programa principal.\n\n### Estructura de un Bloque\nTodo programa o subprograma en Pascal está contenido en un bloque, que tiene la siguiente estructura sintáctica:\npascal\n// Encabezado (varía según el tipo)\nconst\n <declaraciones de constantes>\ntype\n <declaraciones de tipos>\nvar\n <declaraciones de variables>\n\n<declaraciones de subprogramas anidados>\n\nbegin\n <instrucciones>\nend\n\n\n### Encabezados de Bloque\nCada bloque está precedido por un encabezado que lo define:\n* Programa principal: program identificador;\n* Procedimiento: procedure nombre(listaparametros);\n* Función: function nombre(listaparametros) : tipo;",
-  unit: u4_unit,
-  question_types: [ 'correct_output' ]
-)
-# Set prerequisite topics separately
-topic_10.prerequisite_topics = [ topic_1, topic_2, topic_4 ]
-
 topic_11 = Topic.find_or_create_by!(
-  name: 'Funciones: Definición, Uso y Retorno de Valores',
+  name: 'Funciones',
   short_description: 'Detalla las funciones como subprogramas que calculan y retornan un único valor de tipo simple. Explica su sintaxis, la declaración, el uso del nombre de la función para el retorno y la diferencia entre parámetros formales y efectivos.',
   description: "Una función es un subprograma diseñado para calcular y retornar un único valor de un tipo simple (como integer, real, char, boolean). Las funciones se invocan como parte de una expresión.\n\n### Declaración y Sintaxis\nLa estructura de una función es:\npascal\nfunction nombre(lista_parametros) : tipo_retorno;\n // Declaraciones locales (const, type, var, etc.)\nbegin\n // Cuerpo de la función\n nombre := valor_a_retornar; // Asignación del valor de retorno\nend;\n\n* Encabezado: function es una palabra reservada. El identificador debe ser único y el tipo_retorno debe ser un tipo simple.\n* Retorno de valor: Dentro del cuerpo de la función, se debe realizar una asignación al nombre de la función (nombre := ...). Esta es la forma en que la función especifica qué valor devolverá. El nombre de la función no es una variable; no se puede leer su valor dentro de la propia función (ej: potencia := potencia * base es incorrecto).\n\n### Parámetros Nominales y Efectivos\n* Parámetros Nominales (o Formales): Son los identificadores que aparecen en la lista de parámetros del encabezado de la función (ej: base, exponente).\n* Parámetros Efectivos (o Reales): Son las expresiones o variables que se utilizan al invocar la función (ej: pi, 23, 2*pi*sqr(radio)).\nPara cada parámetro, el tipo del parámetro efectivo debe ser compatible con el tipo del parámetro nominal correspondiente.\n\n### Funciones Booleanas\nSon un tipo especial de función que retorna true o false. Son muy útiles para verificar propiedades, como si un número es primo (EsPrimo) o si un elemento pertenece a un arreglo (pertenece).\n\n### Recomendaciones de Estilo para Funciones\n* Deben ser puras: no deben tener efectos secundarios.\n* No utilizar pasaje de parámetros por referencia (var).\n* No realizar operaciones de entrada/salida (read, write).\n* No utilizar variables globales.\n* Asignar el valor de retorno una única vez, como última instrucción.",
   unit: u4_unit,
   question_types: [ 'correct_output' ]
 )
 # Set prerequisite topics separately
-topic_11.prerequisite_topics = [ topic_1, topic_2, topic_4, topic_10 ]
+topic_11.prerequisite_topics = [ topic_1, topic_2, topic_4 ]
 
 topic_12 = Topic.find_or_create_by!(
-  name: 'Procedimientos y Mecanismos de Pasaje de Parámetros',
+  name: 'Procedimientos y Pasaje de Parámetros',
   short_description: 'Explica los procedimientos como subprogramas que ejecutan una acción sin retornar un valor en su nombre. Introduce los dos mecanismos de pasaje de parámetros: por valor y por referencia, que son clave para la comunicación con los procedimientos.',
   description: "Un procedimiento es un subprograma que ejecuta una secuencia de acciones pero no retorna un valor en su nombre. Se invoca como una instrucción independiente.\n\nSu encabezado es más simple que el de una función:\nprocedure nombre(listaparametros);\n\nDado que los procedimientos no retornan un valor directamente, la comunicación y la devolución de resultados se gestionan a través de sus parámetros, utilizando dos mecanismos distintos:\n\n### Pasaje de Parámetros por Valor\nEste es el mecanismo por defecto, usado cuando un parámetro no está precedido por la palabra var.\n* Funcionamiento: En el momento de la invocación, se crea una copia del valor del parámetro efectivo y se asigna al parámetro nominal. \n* Parámetro Efectivo: Puede ser cualquier expresión que resulte en un tipo compatible (ej. 23, N*2).\n* Efecto: Cualquier modificación que se haga al parámetro nominal dentro del procedimiento no afecta a la variable original fuera de él. Se usa para pasar datos de entrada que no deben ser alterados.\n\n### Pasaje de Parámetros por Referencia\nSe indica anteponiendo la palabra reservada var al parámetro en la declaración.\n* Funcionamiento: No se crea una copia. El parámetro nominal se convierte en un alias (otro nombre) del parámetro efectivo. Ambos apuntan a la misma dirección de memoria.\n* Parámetro Efectivo: Debe ser una variable, no una expresión.\n* Efecto: Cualquier modificación del parámetro nominal dentro del procedimiento se refleja inmediatamente en el parámetro efectivo fuera de él. Este es el mecanismo principal que usan los procedimientos para \"retornar\" resultados.\n\n### Ejemplos de Uso\n* procedure LeerArreglo(var A: arreglo): Utiliza pasaje por referencia para llenar un arreglo con datos leídos del usuario.\n* procedure intercambio(var a,b: T): Necesita pasaje por referencia en ambos parámetros para poder intercambiar sus valores.\n* procedure MostrarResultado(area: real): Utiliza pasaje por valor porque solo necesita leer el dato para mostrarlo, sin modificarlo.",
   unit: u4_unit,
   question_types: [ 'correct_output' ]
 )
 # Create the topic for rules of scope
-topic_12.prerequisite_topics = [ topic_1, topic_2, topic_4, topic_10, topic_11 ]
+topic_12.prerequisite_topics = [ topic_1, topic_2, topic_4, topic_11 ]
 
 topic_13 = Topic.find_or_create_by!(
-  name: 'Reglas de Alcance: Identificadores Locales y Globales',
+  name: 'Alcance de Identificadores',
   short_description: 'Define el concepto de alcance (scope) de un identificador, explicando la diferencia entre variables locales y globales. Detalla cómo se determina la visibilidad de las variables y subprogramas en bloques anidados y cómo se resuelven los conflictos de nombres.',
   description: "El alcance (o scope) de un identificador es la porción del programa en la que dicho identificador es \"visible\" y, por lo tanto, puede ser utilizado. Las reglas de alcance determinan esta visibilidad.\n\n### Identificadores Locales y Globales\n* Identificador Global: Es aquel que se declara en el bloque del programa principal. Es visible en todo el programa, incluyendo dentro de todos los subprogramas que contiene.\n* Identificador Local: Es aquel que se declara dentro de un subprograma (incluyendo sus parámetros). Solo es visible dentro del subprograma que lo declara y en los subprogramas anidados dentro de este.\n\n### Regla General de Visibilidad\nUn identificador definido en un bloque es visible en ese bloque y en todos los sub-bloques que contenga, pero no en bloques externos.\n\n* Ejemplo: Si un procedimiento p contiene una función f, las variables declaradas en p son globales para f y pueden ser usadas dentro de f. Sin embargo, las variables locales de f no son visibles en p.\n\n### Solapamiento de Nombres (Shadowing)\nSi un identificador local tiene el mismo nombre que un identificador global, el local tiene prioridad dentro de su propio alcance. Se dice que el identificador local \"tapa\" o \"ensombrece\" al global. Cualquier referencia a ese nombre dentro del subprograma se referirá a la entidad local, no a la global.\n\n* Ejemplo: Si el programa principal tiene una variable x y un procedimiento p define un parámetro x, cualquier uso de x dentro de p se referirá al parámetro, no a la variable global.\n\n### Alcance de Funciones y Procedimientos\nEl identificador de un subprograma también sigue las reglas de alcance. Un subprograma es visible y puede ser llamado:\n1. En el bloque donde está definido, pero solo después de su declaración.\n2. Dentro de sí mismo (lo que permite la recursión).\n3. Dentro de otros subprogramas declarados posteriormente en el mismo nivel de anidamiento.\n\nEsto implica que una función f no puede llamar a una función g si g está declarada más abajo en el código. De igual forma, un subprograma k anidado dentro de g es local a g y no puede ser llamado desde fuera de g.",
   unit: u4_unit,
   question_types: [ 'correct_output' ]
 )
-topic_13.prerequisite_topics = [ topic_1, topic_2, topic_4, topic_10, topic_11, topic_12 ]
+topic_13.prerequisite_topics = [ topic_1, topic_2, topic_4, topic_11, topic_12 ]
 
 
 # Create the fifth unit and its topics
@@ -235,22 +225,22 @@ u5_unit = Unit.find_or_create_by!(
 u5_unit.save!
 
 topic_14 = Topic.find_or_create_by!(
-  name: 'Tipos de Datos Definidos por el Programador y Subrangos',
+  name: 'Tipos Propios y Subrangos',
   short_description: "Introducción a la definición de nuevos tipos de datos en Pascal usando la palabra reservada 'type', con un enfoque en los tipos subrango, que restringen los valores de un tipo ordinal a un conjunto contiguo.",
   description: "En Pascal, además de los tipos de datos predefinidos (integer, char, boolean), el programador puede crear sus propios tipos de datos utilizando la sección type del programa. Esto mejora la legibilidad y la seguridad del código.\n\n### Tipo Subrango\nUn tipo subrango define un subconjunto contiguo de valores de un tipo de dato ordinal (también llamado escalar).\n\n* Sintaxis de Declaración:\n type identificador = constante_inicial .. constante_final;\n\n* Tipos Base: El tipo del que se deriva un subrango debe ser ordinal. Los principales son:\n * integer: type mes = 1..12;\n * char: type letra_mayuscula = 'A'..'Z';\n * boolean\n * enumerado (se ve más adelante)\n\n* Ejemplos:\n pascal\n type\n natural = 0..MaxInt;\n digito_char = '0'..'9'; // Subrango de char\n digito_int = 0..9; // Subrango de integer\n\n Es importante notar la diferencia entre digito_char y digito_int, ya que sus valores y operaciones son diferentes.\n\n* Operaciones y Verificación:\n * Las variables de un tipo subrango se comportan como si fueran de su tipo base, pero con una restricción.\n * Si se intenta asignar un valor a una variable de tipo subrango que está fuera de su rango definido, se produce un error en tiempo de ejecución. Para que el compilador Free Pascal realice esta verificación, se debe activar la opción correspondiente (flag -Cr).",
   unit: u5_unit,
   question_types: [ 'correct_output' ]
 )
-topic_14.prerequisite_topics = [ topic_1, topic_2, topic_4, topic_10, topic_11, topic_12, topic_13 ]
+topic_14.prerequisite_topics = [ topic_1, topic_2, topic_4, topic_11, topic_12, topic_13 ]
 
 topic_15 = Topic.find_or_create_by!(
-  name: 'Arreglos Unidimensionales: Concepto y Declaración',
+  name: 'Arreglos Unidimensionales',
   short_description: 'Introducción a los arreglos (arrays) como tipos de datos estructurados para almacenar una colección de elementos del mismo tipo, accesibles a través de un índice. Se detalla su sintaxis y estructura.',
   description: "Un arreglo (array) es un tipo de dato estructurado que permite almacenar un conjunto de valores del mismo tipo bajo un único nombre de variable. Cada valor individual se accede a través de un índice.\n\n### Motivación\nLos arreglos están inspirados en la notación matemática de secuencias finitas (a₁, a₂, ..., aₙ) y resuelven la necesidad de manejar colecciones de datos relacionados sin tener que declarar una variable para cada uno.\n\n### Declaración de un Arreglo\nLos arreglos se definen en la sección type del programa.\n\n* Sintaxis General:\n type nombre_arreglo = array [tipo_indice] of tipo_base;\n\n* Componentes:\n * tipo_indice: Define el conjunto de valores válidos para acceder a las celdas del arreglo. Debe ser un tipo ordinal, y comúnmente se utiliza un subrango de enteros. El número de elementos en el tipo_indice determina el tamaño del arreglo.\n * tipo_base: Especifica el tipo de dato de cada uno de los elementos almacenados en el arreglo. Puede ser cualquier tipo de Pascal (simple o estructurado).\n\n* Ejemplo:\n pascal\n type\n RangoArreglo = 1..9;\n Arreglo = array [RangoArreglo] of integer;\n var\n A: Arreglo;\n\n En este caso, A es un arreglo de 9 celdas, indexadas del 1 al 9, donde cada celda almacena un valor de tipo integer.\n\n### Acceso a los Elementos\nPara acceder a una celda específica del arreglo, se utiliza el nombre de la variable seguido del índice entre corchetes.\n* A[1] := 12; // Asigna el valor 12 a la primera celda.\n* valor := A[i]; // Lee el valor de la celda i-ésima.\n\nSi se intenta acceder a un índice que está fuera del rango definido por tipo_indice (ej. A[200] en el ejemplo anterior), se producirá un error en tiempo de ejecución.",
   unit: u5_unit,
   question_types: [ 'correct_output' ]
 )
-topic_15.prerequisite_topics = [ topic_1, topic_2, topic_4, topic_10, topic_11, topic_12, topic_13, topic_14 ]
+topic_15.prerequisite_topics = [ topic_1, topic_2, topic_4, topic_11, topic_12, topic_13, topic_14 ]
 
 
 topic_16 = Topic.find_or_create_by!(
@@ -260,17 +250,17 @@ topic_16 = Topic.find_or_create_by!(
   unit: u5_unit,
   question_types: [ 'correct_output' ]
 )
-topic_16.prerequisite_topics = [ topic_1, topic_2, topic_4, topic_10, topic_11, topic_12, topic_13, topic_14, topic_15 ]
+topic_16.prerequisite_topics = [ topic_1, topic_2, topic_4, topic_11, topic_12, topic_13, topic_14, topic_15 ]
 
 
 topic_17 = Topic.find_or_create_by!(
-  name: 'Arreglos Multidimensionales (Matrices)',
+  name: 'Arreglos Multidimensionales',
   short_description: 'Extiende el concepto de arreglos a múltiples dimensiones, conocidos como matrices, explicando su declaración y las dos formas sintácticas para acceder a sus elementos.',
   description: "Un arreglo multidimensional es una estructura que puede ser vista como un arreglo de arreglos o, de forma más abstracta, como un arreglo que requiere múltiples índices para acceder a un elemento. El caso más común es el arreglo bidimensional, también conocido como matriz.\n\n### Declaración\nSe declaran especificando múltiples tipos de índice, separados por comas.\n* Sintaxis:\n type nombre_matriz = array [rango_filas, rango_columnas] of tipo_base;\n\n* Ejemplos:\n pascal\n type\n matriz_char = array [1..20, 1..15] of char;\n matriz_datos = array ['0'..'9', 1..10] of integer;\n\n\n### Acceso a los Elementos\nExisten dos formas sintácticas para acceder a un elemento en una matriz, como a:\n1. Índices separados: a[i][j]\n Esta forma refleja la idea de un \"arreglo de arreglos\", donde a[i] selecciona una fila (que es un arreglo) y [j] selecciona un elemento de esa fila.\n\n2. Índices combinados: a[i, j]\n Esta es la notación más común y directa para trabajar con matrices.\n\nAmbas formas son equivalentes y la elección depende del estilo del programador, aunque a[i,j] es la más utilizada en la práctica por su brevedad.",
   unit: u5_unit,
   question_types: [ 'correct_output' ]
 )
-topic_17.prerequisite_topics = [ topic_1, topic_2, topic_4, topic_10, topic_11, topic_12, topic_13, topic_14, topic_15, topic_16 ]
+topic_17.prerequisite_topics = [ topic_1, topic_2, topic_4, topic_11, topic_12, topic_13, topic_14, topic_15, topic_16 ]
 
 
 # Create the sixth unit and its topics
@@ -282,16 +272,8 @@ u6_unit = Unit.find_or_create_by!(
 )
 u6_unit.save!
 
-topic_18 = Topic.find_or_create_by!(
-  name: 'Tipos de Datos Ordinales (Escalares)',
-  short_description: 'Define el concepto de tipos ordinales, que son aquellos cuyos valores tienen un orden bien definido y sucesores/predecesores únicos. Enumera los tipos ordinales en Pascal y las construcciones del lenguaje que los requieren.',
-  description: "Un tipo de dato ordinal (también llamado escalar) es aquel en el que el conjunto de sus posibles valores está ordenado de manera que cada valor (excepto el primero y el último) tiene un predecesor único y un sucesor único.\n\n### Tipos Ordinales en Pascal\nLos tipos de datos que se consideran ordinales son:\n* integer (entero)\n* char (carácter)\n* boolean (booleano)\n* enumerados (definidos por el programador)\n* subrangos (de cualquiera de los tipos anteriores)\n\nEs importante destacar que el tipo real NO es un tipo ordinal, ya que entre dos números reales siempre existe otro, por lo que no se puede hablar de un 'sucesor' o 'predecesor' único.\n\n### Propiedades y Funciones\nPara todos los tipos ordinales están definidas las siguientes funciones estándar:\n* ord(x): Devuelve la posición numérica (un entero) del valor x en su secuencia. Para los enteros, ord(x) es x.\n* succ(x): Devuelve el valor sucesor a x.\n* pred(x): Devuelve el valor predecesor a x.\n\n### Uso en Construcciones de Pascal\nLos tipos ordinales son un requisito fundamental en varias estructuras del lenguaje:\n* Bucles for: La variable de control (contador) de un bucle for contador := ... debe ser de un tipo ordinal.\n* Selección case: La expresión de un case expresion of ... debe evaluarse a un valor de tipo ordinal.\n* Índices de array: El tipo_indice en array [tipo_indice] of ... debe ser un tipo ordinal.\n* Base de set: El tipo_base en set of tipo_base debe ser un tipo ordinal.",
-  unit: u6_unit,
-  question_types: [ 'correct_output' ]
-)
-
 topic_19 = Topic.find_or_create_by!(
-  name: 'Tipos de Datos Enumerados',
+  name: 'Enumerados',
   short_description: 'Introduce los tipos enumerados como una forma de crear tipos de datos personalizados, definiendo un conjunto finito y ordenado de identificadores que mejoran la legibilidad y la robustez del código.',
   description: "Un tipo enumerado permite al programador definir un nuevo tipo de dato especificando una lista de todos sus posibles valores. Esto es útil cuando una variable solo puede tomar un valor de un conjunto limitado de opciones con nombre propio, como los días de la semana, los meses del año, los colores, etc.\n\n### Motivación y Sintaxis\nEn lugar de usar números (1 para lunes, 2 para martes) o caracteres, que son poco mnemotécnicos, los enumerados permiten usar identificadores significativos.\n* Sintaxis: type NombreTipo = (identificador1, identificador2, ..., identificadorN);\n* Valores: Los valores de un tipo enumerado deben ser identificadores válidos, no literales numéricos o de carácter. Por ejemplo, (domingo, lunes, martes) es correcto, mientras que (0, 2, 4) o ('a', 'e', 'i') son incorrectos.\n* Ejemplos:\n pascal\n type\n DiaSemana = (domingo, lunes, martes, miercoles, jueves, viernes, sabado);\n PuntoCardinal = (norte, sur, este, oeste);\n\nEl tipo boolean es, en esencia, un enumerado predefinido: type boolean = (false, true);\n\n### Operaciones y Conversión\nComo los enumerados son tipos ordinales, el orden de declaración importa.\n* Operaciones: Soportan operadores de comparación (=, <, >) y las funciones ord, succ, y pred. El orden se basa en la lista de declaración (ord(domingo) es 0, ord(lunes) es 1, etc.).\n* Conversión con Enteros:\n * De enumerado a entero: Se usa la función ord(). Ej: ord(martes) devuelve 2.\n * De entero a enumerado: Se usa el nombre del tipo como si fuera una función. Ej: DiaSemana(2) devuelve martes.\n\n### Entrada y Salida (I/O)\nNo es posible leer o escribir valores enumerados directamente con read o write. Se debe hacer una conversión explícita:\n* Entrada: Leer un entero y luego convertirlo al tipo enumerado.\n pascal\n ReadLn(mes_aux); // lee un número de 1 a 12\n m := Mes(mes_aux-1); // convierte a enumerado (enero=0...)\n\n* Salida: Usar una estructura case para asociar cada valor enumerado con una cadena de texto para imprimir.\n pascal\n case m of\n enero: write('enero');\n febrero: write('febrero');\n ...\n end;",
   unit: u6_unit,
@@ -299,7 +281,7 @@ topic_19 = Topic.find_or_create_by!(
 )
 
 topic_20 = Topic.find_or_create_by!(
-  name: 'Tipos de Datos de Conjunto (Set)',
+  name: 'Conjuntos (Set)',
   short_description: "Presenta el tipo de dato 'set' para representar colecciones no ordenadas de elementos únicos de un tipo ordinal base. Se explican su definición, representación, restricciones y las operaciones del álgebra de conjuntos.",
   description: "El tipo de dato conjunto (set) en Pascal se utiliza para representar una colección de elementos únicos, sin un orden específico, pertenecientes a un mismo tipo base ordinal.\n\n### Motivación y Definición\n* Los conjuntos son ideales para modelar el concepto matemático de conjunto, permitiendo operaciones como unión, intersección y pertenencia.\n* A diferencia de un arreglo, en un conjunto no hay elementos repetidos ni un orden intrínseco.\n* Sintaxis: type NombreConjunto = set of tipo_base;\n* tipo_base: Debe ser un tipo ordinal. \n* Restricciones (Free Pascal): El tipo_base no puede tener más de 256 valores posibles, y sus valores ordinales no pueden ser negativos. Por esto, set of char es válido (256 valores), pero set of integer es inválido (demasiado grande).\n\n### Representación y Literales\nLos valores de un tipo conjunto se escriben entre corchetes [].\n* []: El conjunto vacío.\n* [0, 2, 4, 6, 8]: Un conjunto con cinco elementos.\n* ['A'..'Z']: Un conjunto definido con un subrango.\n* [1..3, 7, 9]: Un conjunto que combina subrangos y elementos individuales.\n\n### Operadores de Conjuntos\nPascal implementa las operaciones habituales del álgebra de conjuntos:\n* + : Unión. Combina los elementos de dos conjuntos.\n* * : Intersección. Devuelve los elementos comunes a ambos conjuntos.\n* - : Diferencia. Devuelve los elementos del primer conjunto que no están en el segundo.\n* in : Pertenencia. Es un operador booleano que devuelve true si un elemento está en un conjunto (ej: if 'a' in vocales then ...).\n* = y <> : Igualdad y Desigualdad. Comparan si dos conjuntos tienen exactamente los mismos elementos.\n* <= : Inclusión. Devuelve true si el primer conjunto es un subconjunto del segundo.\n\n### Uso y Visualización\nNo se puede mostrar un conjunto directamente con write. Para visualizar sus elementos, es necesario recorrer el universo completo de su tipo_base y verificar la pertenencia de cada posible elemento.\npascal\n// Para mostrar los elementos de un conjunto 'conj' de tipo 'set of char'\nfor c := 'a' to 'z' do\n if c in conj then\n Write(c);",
   unit: u6_unit,
@@ -309,14 +291,14 @@ topic_20 = Topic.find_or_create_by!(
 # Create the seventh unit and its topics
 u7_unit = Unit.find_or_create_by!(
   name: 'Array con tope y Registros variantes',
-  description: 'Patrones de diseño con arreglos dinámicos y estructuras de datos con registros variantes en Pascal.',
+  description: 'Uso de arreglos dinámicos y estructuras de datos con registros variantes en Pascal.',
   course_id: p1_course.id,
   position: 7
 )
 u7_unit.save!
 
 topic_21 = Topic.find_or_create_by!(
-  name: "El Patrón de Diseño 'Array con Tope'",
+  name: "Array con Tope",
   short_description: "Describe una estructura de datos conceptual que combina un arreglo estático con un contador ('tope') para gestionar una colección de tamaño variable, simulando comportamiento dinámico. Se usa para implementar listas o conjuntos cuyo tamaño máximo es conocido pero la cantidad de elementos varía.",
   description: "El array con tope es una estructura de datos conceptual, no un tipo de dato nativo de Pascal. Se implementa combinando un registro (record) y un arreglo (array) para manejar colecciones de elementos donde el número de elementos válidos puede cambiar durante la ejecución, hasta un máximo predefinido.\n\n### Definición Conceptual\nSe define como un registro que contiene dos campos:\n1. Un arreglo de tamaño fijo, que actúa como contenedor de datos.\n2. Un campo numérico, llamado tope, que lleva la cuenta de cuántos elementos del arreglo están actualmente en uso.\n\npascal\ntype\n ArrTope = record\n elems : array [1..N] of T; // N es el tamaño máximo, T el tipo de los elementos\n tope : 0..N; // Indica el número de elementos válidos\n end;\n\n\n### Funcionamiento\n* Los elementos válidos se almacenan de forma contigua en el arreglo elems, desde la posición 1 hasta la posición indicada por tope.\n* El valor del campo tope siempre representa la cantidad de elementos válidos. Si tope es 0, la estructura está vacía.\n* Los elementos en las posiciones del arreglo desde tope + 1 hasta N se consideran 'basura' y no tienen significado para la lógica del programa.\n* Aunque el almacenamiento subyacente es estático (el arreglo elems tiene un tamaño fijo N), la estructura simula un comportamiento dinámico al permitir agregar y quitar elementos cambiando el valor de tope.\n\n### Implementación de Operaciones (Ejemplo: Conjunto)\nEl 'array con tope' es ideal para implementar un conjunto cuando el tipo de elemento no es ordinal o el universo es demasiado grande para un set nativo.\n\n* Crear Conjunto Vacío:\n Se inicializa el tope a 0.\n procedure CrearConjuntoVacio(var S : Conj);\n begin S.tope := 0; end;\n\n* Insertar un Elemento:\n Se asume que el elemento no existe y hay espacio. Se incrementa el tope y se coloca el nuevo elemento en la última posición válida.\n procedure Insertar(e : T; var S : Conj);\n begin\n S.tope := S.tope + 1;\n S.elems[S.tope] := e;\n end;\n\n* Eliminar un Elemento:\n Se busca el elemento. Si se encuentra en la posición i, se reemplaza por el último elemento válido (el que está en la posición tope) y se decrementa el tope. Esta es una técnica eficiente que evita tener que desplazar elementos.\n // ... búsqueda encuentra el elemento en la posición i ...\n if i <= S.tope then\n begin\n S.elems[i] := S.elems[S.tope];\n S.tope := S.tope - 1;\n end;\n\n* Búsqueda (Pertenencia):\n Se realiza una búsqueda secuencial, pero es crucial iterar solo hasta S.tope, no hasta el final del arreglo N.\n function pertenece(e : T; S : Conj) : boolean;\n // ... bucle while que itera de 1 hasta S.tope ...",
   unit: u7_unit,
@@ -324,7 +306,7 @@ topic_21 = Topic.find_or_create_by!(
 )
 
 topic_22 = Topic.find_or_create_by!(
-  name: 'Registros Variantes (Variant Records)',
+  name: 'Registros Variantes',
   short_description: 'Explica cómo definir un tipo registro cuya estructura puede variar según el valor de un campo especial (discriminante). Permite modelar entidades que comparten datos comunes pero tienen atributos específicos según su categoría.',
   description: "Un registro variante (variant record) es una estructura de datos que permite que un registro tenga diferentes campos según el valor de un campo especial, conocido como campo discriminante o campo etiqueta (tag field).\n\n### Motivación\nSe utilizan para representar entidades que pueden pertenecer a diferentes categorías, donde cada categoría comparte un conjunto de atributos comunes (la parte fija) pero también tiene atributos específicos (la parte variante).\n\n### Sintaxis y Estructura\nUn registro variante se compone de una parte fija y una parte variante.\npascal\ntype\n TipoDiscriminante = (valor1, valor2, ...);\n NombreRegistro = record\n // --- Parte Fija (común a todas las variantes) ---\n campo_comun1: TipoA;\n campo_comun2: TipoB;\n\n // --- Parte Variante (depende del campo discriminante) ---\n case campo_discriminante: TipoDiscriminante of\n valor1: (\n campo_esp1_a: TipoX;\n campo_esp1_b: TipoY\n );\n valor2: (\n campo_esp2_a: TipoZ\n );\n end;\n\n* Parte Fija: Son los campos que existen para cualquier instancia del registro, sin importar su variante.\n* Parte Variante: Se introduce con la palabra case. Define las diferentes estructuras posibles.\n* Campo Discriminante: (campo_discriminante en el ejemplo) es un campo de tipo ordinal cuyo valor determina cuál de las variantes está activa. Se declara junto al case.\n* Variantes: Cada posible valor del campo discriminante (valor1, valor2) define una lista de campos entre paréntesis que solo existen cuando el campo discriminante tiene ese valor.\n\n### Ejemplo: Figuras Geométricas\npascal\ntype\n TipoFigura = (circulo, cuadrado, rectangulo);\n figura = record\n color: RGBColor; // Parte fija\n case clase: TipoFigura of // Campo discriminante\n circulo: (radio: real; centro: punto);\n cuadrado: (lado: real; verticeSupIzq: punto);\n rectangulo: (base, altura: real; verticeInfIzq: punto);\n end;\n\n\n### Uso y Acceso\n1. Asignación: Para asignar valores a un registro variante, se debe primero asignar un valor al campo discriminante. Solo después es seguro y correcto acceder a los campos de esa variante específica.\n pascal\n var r: figura;\n r.clase := rectangulo; // Se activa la variante 'rectangulo'\n r.base := 12.4; // Ahora es seguro acceder a 'base'\n r.altura := 345.90;\n\n Acceder a r.radio en este punto sería un error lógico.\n\n2. Procesamiento: Para leer o procesar un registro variante, se debe usar una estructura case sobre el campo discriminante para determinar la variante activa y operar con los campos correctos.\n pascal\n function areaFigura(fig: Figura): real;\n begin\n with fig do begin\n case clase of\n circulo: areaFigura := PI * sqr(radio);\n rectangulo: areaFigura := base * altura;\n cuadrado: areaFigura := sqr(lado);\n end;\n end;\n end;",
   unit: u7_unit,
@@ -333,7 +315,7 @@ topic_22 = Topic.find_or_create_by!(
 
 # Create the eighth unit and its topics
 u8_unit = Unit.find_or_create_by!(
-  name: 'Punteros. Estructuras dinámicas',
+  name: 'Punteros y Estructuras Dinámicas',
   description: 'Punteros, memoria dinámica y estructuras de datos dinámicas como listas encadenadas en Pascal.',
   course_id: p1_course.id,
   position: 8
@@ -341,7 +323,7 @@ u8_unit = Unit.find_or_create_by!(
 u8_unit.save!
 
 topic_23 = Topic.find_or_create_by!(
-  name: 'Conceptos Fundamentales de Punteros y Memoria Dinámica',
+  name: 'Fundamentos de Punteros y Memoria Dinámica',
   short_description: 'Introduce el concepto de punteros como variables que almacenan direcciones de memoria, permitiendo la creación de estructuras de datos dinámicas cuyo tamaño puede cambiar durante la ejecución del programa. Se explican las operaciones básicas de asignación de memoria, acceso y liberación.',
   description: "Una estructura de datos dinámica es aquella cuyo tamaño puede cambiar en tiempo de ejecución, a diferencia de las estructuras estáticas como arreglos o registros, cuya memoria se asigna al inicio de un bloque y permanece fija.\n\nLos punteros son la herramienta clave para crear estructuras dinámicas. Un puntero es una variable cuyo contenido no es un dato en sí, sino la dirección de memoria donde se almacena otro dato. \n\n### Declaración de Punteros\nSe declaran usando el símbolo ^ antes del tipo de dato al que apuntarán.\n* Sintaxis: type nombre_puntero = ^tipo_apuntado;\n* Ejemplo:\n pascal\n type\n ptrInt = ^integer; // Un puntero a un entero\n ptrCelda = ^celda; // Un puntero a un registro de tipo celda\n\n\n### Operaciones Fundamentales\n1. Creación de memoria (new): El procedimiento new(ptr) realiza una asignación dinámica de memoria. Crea en tiempo de ejecución un nuevo espacio de memoria del tamaño requerido por el tipo_apuntado y guarda su dirección en la variable puntero ptr. La variable creada es anónima (no tiene identificador propio) y su contenido inicial es indefinido.\n\n2. Acceso a datos (desreferenciación con ^): El operador ^ aplicado a un puntero (ej. ptr^) permite acceder a la variable que está en la dirección de memoria apuntada. Esta expresión se puede usar como cualquier otra variable del tipo apuntado (para leer su valor o para asignarle uno nuevo).\n * new(p); // p ahora apunta a una nueva celda de memoria\n * p^ := 10; // Se asigna 10 al espacio de memoria apuntado por p\n\n3. Liberación de memoria (dispose): El procedimiento dispose(ptr) le indica al sistema que el espacio de memoria apuntado por ptr ya no se necesita. El sistema recupera ese espacio para poder reutilizarlo. Después de un dispose, el puntero ptr queda con un valor indefinido.\n\n### Alias de Variables\nSi dos punteros (ptr1 y ptr2) contienen la misma dirección de memoria (ptr2 := ptr1), se dice que son alias. Ambas expresiones ptr1^ y ptr2^ se refieren exactamente a la misma variable en memoria, por lo que un cambio a través de uno se refleja en el otro.",
   unit: u8_unit,
@@ -395,7 +377,7 @@ topic_27 = Topic.find_or_create_by!(
 topic_27.prerequisite_topics = [ topic_26, topic_7 ]
 
 topic_28 = Topic.find_or_create_by!(
-  name: 'Algoritmos de Ordenación: Inserción y Selección',
+  name: 'Ordenación: Inserción y Selección',
   short_description: 'Introduce dos algoritmos fundamentales para ordenar una colección de datos. El método de Inserción construye el arreglo ordenado de forma incremental, mientras que el de Selección busca repetidamente el elemento mayor (o menor) y lo coloca en su posición final.',
   description: "La ordenación es el proceso de reorganizar un conjunto de objetos según un criterio específico (clave de ordenación). Es un paso fundamental para poder aplicar algoritmos eficientes como la búsqueda binaria.\n\n### 1. Ordenación por Inserción (Insertion Sort)\nEste método construye la versión final ordenada del arreglo un elemento a la vez.\n\n* Concepto: El algoritmo itera desde el segundo elemento (i=2) hasta el final. En cada iteración i, considera al elemento A[i] como un valor a insertar en la sublista ya ordenada A[1...i-1].\n* Proceso: Para insertar A[i], se compara con los elementos a su izquierda (A[i-1], A[i-2], etc.). Los elementos mayores que A[i] se desplazan una posición a la derecha para hacerle un hueco. Este proceso continúa hasta que se encuentra un elemento menor o igual, o se llega al principio del arreglo. En ese punto, se coloca A[i] en el hueco creado.\n* Implementación: Se utiliza un bucle externo for i := 2 to n para recorrer el arreglo. Un bucle interno while se encarga de desplazar los elementos y encontrar la posición correcta para la inserción.\n pascal\n procedure OrdIns(var A: arreglo);\n var i, j: integer;\n begin\n for i := 2 to n do begin\n j := i;\n while (j >= 2) and (A[j] < A[j-1]) do begin\n intercambio(A[j], A[j-1]);\n j := j - 1;\n end;\n end;\n end;\n\n\n### 2. Ordenación por Selección (Selection Sort)\nEste método divide conceptualmente el arreglo en una parte ordenada (que crece desde el final hacia el principio) y una parte desordenada.\n\n* Concepto: En cada pasada, el algoritmo busca el elemento con la clave más grande en la porción aún no ordenada del arreglo.\n* Proceso: Una vez encontrado el elemento más grande, lo intercambia (swap) con el elemento que se encuentra en la última posición de la porción desordenada. Luego, reduce en uno el tamaño de la porción desordenada y repite el proceso.\n* Implementación: Un bucle principal for i := n downto 2 gestiona la porción desordenada (de 1 a i). Dentro de este bucle, se llama a una función auxiliar maximo(i, A) para encontrar el índice del elemento más grande en el rango 1..i. Finalmente, se realiza un intercambio entre A[indice_maximo] y A[i].\n pascal\n function maximo(ultimo: integer; A: arreglo): integer;\n // ... busca y devuelve el índice del máximo en A[1..ultimo]\n \n procedure OrdSel(var A: arreglo);\n var i, mayor: integer;\n begin\n for i := n downto 2 do begin\n mayor := maximo(i, A);\n intercambio(A[mayor], A[i]);\n end;\n end;",
   unit: u9_unit,
@@ -404,3 +386,108 @@ topic_28 = Topic.find_or_create_by!(
 topic_28.prerequisite_topics = [ topic_26, topic_11, topic_12 ]
 
 puts "Topics created: #{Topic.count}!!! :)"
+
+learning_aids_by_topic = {
+  "Tipos de Datos Numéricos y Expresiones" => [
+    { name: "Openfing: Componentes Básicos 1", url: "https://open.fing.edu.uy/courses/p1/2/" },
+    { name: "Openfing: Componentes Básicos 2", url: "https://open.fing.edu.uy/courses/p1/3/" },
+    { name: "Guia Teórica: Componentes Básicos", url: "https://eva.fing.edu.uy/pluginfile.php/554577/mod_resource/content/4/Componentes-Basicos.pdf" }
+  ],
+  "Tipos de Datos Boolean y Char" => [
+    { name: "Openfing: Componentes Básicos 1", url: "https://open.fing.edu.uy/courses/p1/2/" },
+    { name: "Openfing: Componentes Básicos 2", url: "https://open.fing.edu.uy/courses/p1/3/" },
+    { name: "Guia Teórica: Componentes Básicos", url: "https://eva.fing.edu.uy/pluginfile.php/554577/mod_resource/content/4/Componentes-Basicos.pdf" }
+  ],
+  "Manejo de Entrada y Salida Estándar" => [
+    { name: "Openfing: Componentes Básicos y Entrada/Salida", url: "https://open.fing.edu.uy/courses/p1/3/" },
+    { name: "Guia Teórica: Entrada y Salida", url: "https://eva.fing.edu.uy/pluginfile.php/554578/mod_resource/content/5/03-GuiaEntradaYSalida.pdf" }
+  ],
+  "Selección Condicional: if-then-else" => [
+    { name: "Estructuras de Control. Secuencia y Selección", url: "https://eva.fing.edu.uy/pluginfile.php/554569/mod_resource/content/8/GuiaSecuenciaYSeleccion.pdf" },
+    { name: "Openfing: Estructuras de Control. Secuencia y Selección", url: "https://open.fing.edu.uy/courses/p1/4/" }
+  ],
+  "Operadores y Evaluación de Expresiones Booleanas" => [
+    { name: "Estructuras de Control. Secuencia y Selección", url: "https://eva.fing.edu.uy/pluginfile.php/554569/mod_resource/content/8/GuiaSecuenciaYSeleccion.pdf" },
+    { name: "Openfing: Estructuras de Control. Secuencia y Selección", url: "https://open.fing.edu.uy/courses/p1/4/" }
+  ],
+  "Selección Múltiple: case" => [
+    { name: "Estructuras de Control. Secuencia y Selección", url: "https://eva.fing.edu.uy/pluginfile.php/554569/mod_resource/content/8/GuiaSecuenciaYSeleccion.pdf" },
+    { name: "Openfing: Estructuras de Control. Secuencia y Selección", url: "https://open.fing.edu.uy/courses/p1/4/" }
+  ],
+  "Repetición: for" => [
+    { name: "Openfing: Estructuras de Control y Repetición: For", url: "https://open.fing.edu.uy/courses/p1/5/" }
+  ],
+  "Repetición Condicional: while" => [
+    { name: "Openfing: Estructuras de Control y Repetición Condicional: While", url: "https://open.fing.edu.uy/courses/p1/6/" }
+  ],
+    "Repetición Condicional: repeat...until" => [
+    { name: "Openfing: Estructuras de Control y Repetición Condicional: Repeat", url: "https://open.fing.edu.uy/courses/p1/7/" }
+  ],
+  "Funciones" => [
+    { name: "Openfing: Subprogramas, Funciones", url: "https://open.fing.edu.uy/courses/p1/12/" }
+  ],
+  "Procedimientos y Pasaje de Parámetros" => [
+    { name: "Openfing: Subprogramas. Procedimientos. Alcance", url: "https://open.fing.edu.uy/courses/p1/13/" }
+  ],
+  "Alcance de Identificadores" => [
+    { name: "Openfing: Alcance", url: "https://open.fing.edu.uy/courses/p1/13/" }
+  ],
+  "Tipos Propios y Subrangos" => [
+    { name: "Openfing: Arreglos y Subrangos", url: "https://open.fing.edu.uy/courses/p1/9/" }
+  ],
+  "Arreglos Unidimensionales" => [
+    { name: "Openfing: Arreglos y Subrangos 1", url: "https://open.fing.edu.uy/courses/p1/9/" },
+    { name: "Openfing: Arreglos y Subrangos 2", url: "https://open.fing.edu.uy/courses/p1/10/" }
+  ],
+  "Operaciones con Arreglos: Recorridas y Búsquedas" => [
+    { name: "Openfing: Arreglos y Subrangos 1", url: "https://open.fing.edu.uy/courses/p1/9/" },
+    { name: "Openfing: Arreglos y Subrangos 2", url: "https://open.fing.edu.uy/courses/p1/10/" }
+  ],
+  "Enumerados" => [
+    { name: "Openfing: Tipos de datos - Enumerados. Conjuntos. Registros", url: "https://open.fing.edu.uy/courses/p1/14/" }
+  ],
+  "Conjuntos (Set)" => [
+    { name: "Openfing: Tipos de datos - Enumerados. Conjuntos. Registros", url: "https://open.fing.edu.uy/courses/p1/14/" }
+  ],
+  "Array con Tope" => [
+    { name: "Openfing: Array con Tope 1", url: "https://open.fing.edu.uy/courses/p1/15/" },
+    { name: "Openfing: Array con Tope 2", url: "https://open.fing.edu.uy/courses/p1/16/" }
+  ],
+  "Registros Variantes" => [
+    { name: "Openfing: Array con Tope y Registros Variantes", url: "https://open.fing.edu.uy/courses/p1/16/" }
+  ],
+  "Fundamentos de Punteros y Memoria Dinámica" => [
+    { name: "Openfing: Memoria dinamica punteros", url: "https://open.fing.edu.uy/courses/p1/17/" }
+  ],
+  "Listas Simplemente Encadenadas" => [
+    { name: "Openfing: Listas 1", url: "https://open.fing.edu.uy/courses/p1/18/" },
+    { name: "Openfing: Listas 2", url: "https://open.fing.edu.uy/courses/p1/19/" }
+  ],
+  "Algoritmos sobre Listas Encadenadas" => [
+    { name: "Openfing: Listas 1", url: "https://open.fing.edu.uy/courses/p1/18/" },
+    { name: "Openfing: Listas 2", url: "https://open.fing.edu.uy/courses/p1/19/" }
+  ],
+  "Búsqueda Lineal (Secuencial)" => [
+    { name: "Openfing: Búsqueda y Ordenación", url: "https://open.fing.edu.uy/courses/p1/20/" }
+  ],
+    "Búsqueda Binaria" => [
+    { name: "Openfing: Búsqueda y Ordenación", url: "https://open.fing.edu.uy/courses/p1/20/" }
+  ],
+  "Ordenación: Inserción y Selección" => [
+    { name: "Openfing: Búsqueda y Ordenación", url: "https://open.fing.edu.uy/courses/p1/20/" }
+  ]
+}
+
+created_la = 0
+
+ActiveRecord::Base.transaction do
+  learning_aids_by_topic.each do |topic_name, items|
+    topic = Topic.find_by!(name: topic_name)
+    items.each do |item|
+      LearningAid.create!(topic: topic, name: item[:name], url: item[:url])
+      created_la += 1
+    end
+  end
+end
+
+puts "LearningAids created: #{created_la}"
